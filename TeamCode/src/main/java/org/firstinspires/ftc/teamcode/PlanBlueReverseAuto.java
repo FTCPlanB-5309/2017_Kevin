@@ -3,10 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Autonomous-Blue Balls And Beacons", group="Robot")
+@Autonomous(name = "Blue Auto", group = "Robot")
 @SuppressWarnings("unused")
-public class PlanBlueBallAuto extends LinearOpMode {
+public class PlanBlueReverseAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     RobotHardware robot = new RobotHardware();
@@ -31,10 +32,9 @@ public class PlanBlueBallAuto extends LinearOpMode {
         telemetry.addData("1", "Left Drive Power", robot.leftWheel.getPower());
         telemetry.addData("2", "Right Drive Power", robot.rightWheel.getPower());
 
-        robot.rightShooter.setPower(0.675);
-        robot.leftShooter.setPower(0.675);
+        robot.shooterSpeed();
         robot.sweeper1.setPower(-1);
-        robot.backward(.8, 26);
+        robot.backward(1500, 26, 3000);
         robot.kick();
         robot.leftShooter.setPower(0);
         robot.rightShooter.setPower(0);
@@ -43,18 +43,21 @@ public class PlanBlueBallAuto extends LinearOpMode {
         //
         // Drive to Beacon wall
         //
-        robot.leftWheelTurn(1, 49);
-        robot.backward(1, 64);
-        robot.rightWheelTurn(-1, -51);
+        robot.leftWheelTurn(1500, 49, 2000);
         Thread.sleep(250);
-        robot.backward(1, 7);
-        robot.leftWheelTurn(1, 86);
+        robot.backward(1750, 58, 6000);
+        robot.rightWheelTurn(2500, -51, 2000);
+        Thread.sleep(250);
+        robot.backward(1500, 7, 1000);
+        robot.leftWheelTurn(1500, 85, 2500);
+        Thread.sleep(250);
         double cmDistance = robot.rangeRead();
         double cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance pre 1", cmDistance);
         telemetry.addData("CM Distance pre 2", cmDistance2);
         telemetry.update();
-        robot.adjustTurn(500);
+        robot.adjustTurn(600);
+        Thread.sleep(250);
         cmDistance = robot.rangeRead();
         cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance post 1", cmDistance);
@@ -63,21 +66,43 @@ public class PlanBlueBallAuto extends LinearOpMode {
         //
         // Find first Beacon
         //
-        robot.findLine(.4);
-        robot.backward(.4, 2);
-        Thread.sleep(250);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftWheel.setPower(.3);
+        robot.rightWheel.setPower(.3);
+        while (robot.OpticalSensor.getLightDetected() < .8 && opModeIsActive()) {
+            Thread.yield();
+        }
+        // Stop all motion;
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backward(1000, 2, 750);
         robot.CServo.setPosition(.6);
-        Thread.sleep(1000);
-        robot.poke(robot.BLUE, .3);
-        robot.backward(1.0, 42);
-        robot.findLine(-.4);
-        robot.forward(.4, 2);
+        Thread.sleep(750);
+        robot.poke(robot.BLUE, 1200);
+        robot.forward(1500, 36, 3000);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftWheel.setPower(.3);
+        robot.rightWheel.setPower(.3);
+        while (robot.OpticalSensor.getLightDetected() < .3 && opModeIsActive()) {
+            Thread.yield();
+        }
+        // Stop all motion;
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backward(1000, 1, 500);
         robot.CServo.setPosition(.6);
-        Thread.sleep(1000);
-        robot.poke(robot.BLUE, .3);
+        Thread.sleep(750);
+        robot.poke(robot.BLUE, 1200);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         robot.stopDrive();
+        Thread.sleep(3000);
         idle();
     }
 /*

@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Autonomous-Red Balls And Beacons", group="Robot")
+@Autonomous(name="Red Auto", group="Robot")
 @SuppressWarnings("unused")
-public class PlanRedBallAuto extends LinearOpMode {
+public class PlanRedReverseAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     RobotHardware robot = new RobotHardware();
@@ -32,56 +33,75 @@ public class PlanRedBallAuto extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         telemetry.addData("1", "Left Drive Power", robot.leftWheel.getPower());
         telemetry.addData("2", "Right Drive Power", robot.rightWheel.getPower());
-        robot.rightShooter.setPower(0.675);
-        robot.leftShooter.setPower(0.675);
+        robot.shooterSpeed();
         robot.sweeper1.setPower(-1);
-        robot.backward(.8, 26);
+        robot.backward(1500, 26, 3000);
         robot.kick();
         robot.leftShooter.setPower(0);
         robot.rightShooter.setPower(0);
         robot.sweeper2.setPower(0);
         robot.sweeper1.setPower(0);
-        robot.rightWheelTurn(1.0, 49);
-        robot.backward(1.0, 62);
-        robot.leftWheelTurn(-1, -41);
+        robot.rightWheelTurn(1500, 49, 3000);
         Thread.sleep(250);
-        robot.backward(1, 7);
+        robot.backward(1750, 58, 6000);
+        robot.leftWheelTurn(1500, -37, 2500);
         Thread.sleep(250);
-        robot.leftWheelTurn(1.0, 85);
+        robot.backward(3000, 7, 1000);
+        robot.leftWheelTurn(1500, 85, 3000);
         Thread.sleep(250);
         double cmDistance = robot.rangeRead();
         double cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance pre 1", cmDistance);
         telemetry.addData("CM Distance pre 2", cmDistance2);
         telemetry.update();
-        robot.adjustTurn(500);
+        robot.adjustTurn(600);
+        Thread.sleep(250);
         cmDistance = robot.rangeRead();
         cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance post 1", cmDistance);
         telemetry.addData("CM Distance post 2", cmDistance2);
         telemetry.update();
-        robot.findLine(-.3);
-        Thread.sleep(250);
-        robot.forward(.3, 2);
-        Thread.sleep(250);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftWheel.setPower(.3);
+        robot.rightWheel.setPower(.3);
+        while (robot.OpticalSensor.getLightDetected() < .8 && opModeIsActive()) {
+            Thread.yield();
+        }
+        // Stop all motion;
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.backward(1000, 2, 750);
         robot.CServo.setPosition(.6);
-        Thread.sleep(1000);
-        robot.poke(robot.RED, .4);
-        Thread.sleep(250);
+        Thread.sleep(750);
+        robot.poke(robot.RED, 1200);
         //
         // Start looking for second Beacon
         //
-        robot.forward(1.0, 36);
-        robot.findLine(.3);
-        robot.backward(.3, 2);
+        robot.backward(1500, 36, 3000);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftWheel.setPower(-.3);
+        robot.rightWheel.setPower(-.3);
+        while (robot.OpticalSensor.getLightDetected() < .8 && opModeIsActive()) {
+            Thread.yield();
+        }
+        // Stop all motion;
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.forward(1000, 1, 500);
         robot.stopDrive(); // Just// in case
         robot.CServo.setPosition(.6);
-        Thread.sleep(1000);
-        robot.poke(robot.RED,.4);
+        Thread.sleep(750);
+        robot.poke(robot.RED,1200);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         robot.stopDrive();
-        sleep(1000);
+        sleep(3000);
         idle();
     }
 }
