@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Autonomous-Purple Backup", group="Robot")
+@Autonomous(name="Purple Autonomous", group="Robot")
 @SuppressWarnings("unused")
 public class PlanBlueBackup extends LinearOpMode {
 
@@ -29,16 +29,16 @@ public class PlanBlueBackup extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         Thread.sleep(15000);
-        robot.rightShooter.setPower(0.675);
-        robot.leftShooter.setPower(0.675);
+        robot.rightShooter.setPower(0.3);
+        robot.leftShooter.setPower(0.3);
         robot.sweeper1.setPower(-.5);
-        robot.backward(0.8, 44);
+        robot.backward(2500, 44, 4000);
         robot.kick();
         robot.leftShooter.setPower(0);
         robot.rightShooter.setPower(0);
         robot.sweeper2.setPower(0);
         robot.sweeper1.setPower(0);
-        robot.backward(1, 24);
+        robot.backward(3000, 24, 4000);
         robot.stopDrive();
         idle();
     }
