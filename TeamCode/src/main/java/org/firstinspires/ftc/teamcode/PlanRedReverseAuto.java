@@ -30,6 +30,7 @@ public class PlanRedReverseAuto extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         telemetry.addData("1", "Left Drive Power", robot.leftWheel.getPower());
         telemetry.addData("2", "Right Drive Power", robot.rightWheel.getPower());
@@ -54,8 +55,13 @@ public class PlanRedReverseAuto extends LinearOpMode {
         telemetry.addData("CM Distance pre 1", cmDistance);
         telemetry.addData("CM Distance pre 2", cmDistance2);
         telemetry.update();
-        robot.adjustTurn(600);
+        int returnAdj = robot.matrixAdjustment(600);
         Thread.sleep(250);
+        telemetry.addData("Adjustment Value", returnAdj);
+        telemetry.update();
+        returnAdj = robot.matrixAdjustment(600);
+        Thread.sleep(250);
+        telemetry.update();
         cmDistance = robot.rangeRead();
         cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance post 1", cmDistance);
@@ -73,10 +79,11 @@ public class PlanRedReverseAuto extends LinearOpMode {
         // Stop all motion;
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.backward(1000, 2, 750);
+        robot.backward(1000, 1, 750);
         robot.CServo.setPosition(.6);
         Thread.sleep(750);
         robot.poke(robot.RED, 1200);
+        robot.leftWheelTurn(600, 1, 750);
         //
         // Start looking for second Beacon
         //
@@ -93,7 +100,7 @@ public class PlanRedReverseAuto extends LinearOpMode {
         // Stop all motion;
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.forward(1000, 1, 500);
+        robot.forward(1000, 3, 500);
         robot.stopDrive(); // Just// in case
         robot.CServo.setPosition(.6);
         Thread.sleep(750);

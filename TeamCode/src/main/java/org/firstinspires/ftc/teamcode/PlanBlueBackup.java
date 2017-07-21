@@ -22,15 +22,15 @@ public class PlanBlueBackup extends LinearOpMode {
          */
         robot.init(hardwareMap);
 
-        // Send telemetry message to signify robot waitirng;
+        // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        Thread.sleep(15000);
-        robot.rightShooter.setPower(0.3);
-        robot.leftShooter.setPower(0.3);
+        Thread.sleep(20000);
+        robot.rightShooter.setPower(1);
+        robot.leftShooter.setPower(1);
         robot.sweeper1.setPower(-.5);
         robot.backward(2500, 44, 4000);
         robot.kick();

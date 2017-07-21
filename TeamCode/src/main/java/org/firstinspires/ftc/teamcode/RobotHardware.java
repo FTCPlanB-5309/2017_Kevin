@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 public class RobotHardware {
     public OpticalDistanceSensor OpticalSensor = null;
@@ -41,7 +42,7 @@ public class RobotHardware {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     byte[] range1Cache; //The read will return an array of bytes. They are stored in this variable
     byte[] range2Cache;
-    //static final int[] correctionArray = new int[] {-164, -120, -75, 0, 75, 167, 242, 258, 345, 407};
+    static final int[] correctionArray = new int[] {-175, -140, -80, 0, 80, 165, 230, 245, 345, 397};
 
     public I2cDevice RANGE2;
     public I2cDeviceSynch RANGE2Reader;
@@ -231,8 +232,8 @@ public class RobotHardware {
             Thread.yield();
         }
         // Stop all motion;
-        leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightWheel.setPower(0);
+        leftWheel.setPower(0);
     }
 
     public void poke(int alliance, int speed) throws InterruptedException {
@@ -279,8 +280,6 @@ public class RobotHardware {
 
 
     public void shooterSpeed(){
-        leftShooter.setMaxSpeed(2900);
-        rightShooter.setMaxSpeed(2900);
         leftShooter.setPower(1);
         rightShooter.setPower(1);
     }
@@ -374,6 +373,54 @@ public class RobotHardware {
         rightWheel.setMaxSpeed(3000);
         rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public int matrixAdjustment(int speed){
+        double distance = 255;
+        double distance2 = 255;
+        leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        for (int i = 1; i < 10 && (distance == 255 || distance2 == 255); i++) {
+            if (distance == 255)
+                distance = rangeRead();
+            if (distance2 == 255)
+                distance2 = rangeRead2();
+            Thread.yield();
+        }
+        int difference = (int) distance2 - (int) distance;
+        if (distance == 255 || distance2 == 255) {
+            difference = 0;
+        }
+        int setSpeed;
+        if (difference == 0)
+            setSpeed = 0;
+        else
+            setSpeed = speed + ((Math.abs(difference) - 1) * 200);
+        int arrayDiff = difference + 3;
+        arrayDiff = Range.clip(arrayDiff, 0, 9);
+        if(difference !=0 && (distance != 255 || distance2 != 255)){
+            if (distance < distance2) {
+                leftWheel.setMaxSpeed(setSpeed);
+                leftWheel.setTargetPosition(correctionArray[arrayDiff]);
+                leftWheel.setPower(1);
+            }
+            else {
+                leftWheel.setMaxSpeed(setSpeed);
+                leftWheel.setTargetPosition(correctionArray[arrayDiff]);
+                leftWheel.setPower(-1);
+            }
+        }
+        while(leftWheel.isBusy() && correctionArray[arrayDiff] != 0) {
+            Thread.yield();
+        }
+        leftWheel.setMaxSpeed(3000);
+        rightWheel.setMaxSpeed(3000);
+        leftWheel.setPower(0);
+        rightWheel.setPower(0);
+        rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        return(correctionArray[arrayDiff]);
     }
     /*public void correctWhileDriving(double power, int distance){
         double offset;
