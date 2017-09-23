@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Red Auto", group="Robot")
+@Autonomous(name="Autonomous-Red Balls And Beacons", group="Robot")
 @SuppressWarnings("unused")
-public class PlanRedReverseAuto extends LinearOpMode {
+public class PlanRedBallAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     RobotHardware robot = new RobotHardware();
@@ -35,52 +35,33 @@ public class PlanRedReverseAuto extends LinearOpMode {
         telemetry.addData("2", "Right Drive Power", robot.rightWheel.getPower());
         robot.shooterSpeed();
         robot.sweeper1.setPower(-1);
-        robot.backward(1500, 26, 3000);
+        robot.backward(2500, 26, 3000);
+        Thread.sleep(250);
         robot.kick();
         robot.leftShooter.setPower(0);
         robot.rightShooter.setPower(0);
         robot.sweeper2.setPower(0);
         robot.sweeper1.setPower(0);
-        robot.rightWheelTurn(1500, 49, 3000);
+        robot.rightWheelTurn(2500, 49, 3000);
+        robot.backward(2500, 62, 6000);
         Thread.sleep(250);
-        robot.backward(1750, 58, 6000);
-        robot.leftWheelTurn(1500, -37, 2500);
+        robot.leftWheelTurn(2500, -41, 2500);
+        robot.backward(2500, 7, 1000);
         Thread.sleep(250);
-        robot.backward(3000, 7, 1000);
-        robot.leftWheelTurn(1500, 85, 3000);
-        Thread.sleep(250);
+        robot.leftWheelTurn(2500, 85, 3000);
         double cmDistance = robot.rangeRead();
         double cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance pre 1", cmDistance);
         telemetry.addData("CM Distance pre 2", cmDistance2);
         telemetry.update();
-        robot.adjustTurn(600);
         Thread.sleep(250);
+        robot.adjustTurn(600);
         cmDistance = robot.rangeRead();
         cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance post 1", cmDistance);
         telemetry.addData("CM Distance post 2", cmDistance2);
         telemetry.update();
-        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.leftWheel.setPower(.3);
-        robot.rightWheel.setPower(.3);
-        while (robot.OpticalSensor.getLightDetected() < .8 && opModeIsActive()) {
-            Thread.yield();
-        }
-        // Stop all motion;
-        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.backward(1000, 2, 750);
-        robot.CServo.setPosition(.6);
-        Thread.sleep(750);
-        robot.poke(robot.RED, 1200);
-        //
-        // Start looking for second Beacon
-        //
-        robot.backward(1500, 36, 3000);
+        Thread.sleep(250);
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -93,7 +74,27 @@ public class PlanRedReverseAuto extends LinearOpMode {
         // Stop all motion;
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.forward(1000, 1, 500);
+        robot.forward(1000, 2, 750);
+        robot.CServo.setPosition(.6);
+        Thread.sleep(750);
+        robot.poke(robot.RED, 1200);
+        //
+        // Start looking for second Beacon
+        //
+        robot.forward(2500, 36, 3000);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftWheel.setPower(.3);
+        robot.rightWheel.setPower(.3);
+        while (robot.OpticalSensor.getLightDetected() < .3 && opModeIsActive()) {
+            Thread.yield();
+        }
+        // Stop all motion;
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backward(1000, 1, 500);
         robot.stopDrive(); // Just// in case
         robot.CServo.setPosition(.6);
         Thread.sleep(750);

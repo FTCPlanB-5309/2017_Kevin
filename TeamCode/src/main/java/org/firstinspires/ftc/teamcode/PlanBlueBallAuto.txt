@@ -4,19 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Red Auto", group="Robot")
+@Autonomous(name = "Autonomous-Blue Balls And Beacons", group = "Robot")
 @SuppressWarnings("unused")
-public class PlanRedReverseAuto extends LinearOpMode {
+public class PlanBlueBallAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     RobotHardware robot = new RobotHardware();
-    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //int thisColor;
+
         /*
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
@@ -33,34 +31,42 @@ public class PlanRedReverseAuto extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
         telemetry.addData("1", "Left Drive Power", robot.leftWheel.getPower());
         telemetry.addData("2", "Right Drive Power", robot.rightWheel.getPower());
-        robot.shooterSpeed();
+
+        robot.rightShooter.setPower(0.3);
+        robot.leftShooter.setPower(0.3);
         robot.sweeper1.setPower(-1);
-        robot.backward(1500, 26, 3000);
+        robot.backward(2500, 26, 3000);
+        Thread.sleep(250);
         robot.kick();
-        robot.leftShooter.setPower(0);
-        robot.rightShooter.setPower(0);
+        robot.shooterSpeed();
         robot.sweeper2.setPower(0);
         robot.sweeper1.setPower(0);
-        robot.rightWheelTurn(1500, 49, 3000);
+        //
+        // Drive to Beacon wall
+        //
+        robot.leftWheelTurn(2500, 49, 2000);
+        robot.backward(2500, 60, 6000);
         Thread.sleep(250);
-        robot.backward(1750, 58, 6000);
-        robot.leftWheelTurn(1500, -37, 2500);
+        robot.rightWheelTurn(2500, -51, 2000);
+        robot.backward(2500, 7, 1000);
         Thread.sleep(250);
-        robot.backward(3000, 7, 1000);
-        robot.leftWheelTurn(1500, 85, 3000);
-        Thread.sleep(250);
+        robot.leftWheelTurn(2500, 85, 2500);
         double cmDistance = robot.rangeRead();
         double cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance pre 1", cmDistance);
         telemetry.addData("CM Distance pre 2", cmDistance2);
         telemetry.update();
-        robot.adjustTurn(600);
         Thread.sleep(250);
+        robot.adjustTurn(600);
         cmDistance = robot.rangeRead();
         cmDistance2 = robot.rangeRead2();
         telemetry.addData("CM Distance post 1", cmDistance);
         telemetry.addData("CM Distance post 2", cmDistance2);
         telemetry.update();
+        Thread.sleep(250);
+        //
+        // Find first Beacon
+        //
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -73,14 +79,11 @@ public class PlanRedReverseAuto extends LinearOpMode {
         // Stop all motion;
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.backward(1000, 2, 750);
+        robot.backward(1000, 2, 750);
         robot.CServo.setPosition(.6);
         Thread.sleep(750);
-        robot.poke(robot.RED, 1200);
-        //
-        // Start looking for second Beacon
-        //
-        robot.backward(1500, 36, 3000);
+        robot.poke(robot.BLUE, 1200);
+        robot.backward(2500, 36, 3000);
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -94,15 +97,13 @@ public class PlanRedReverseAuto extends LinearOpMode {
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.forward(1000, 1, 500);
-        robot.stopDrive(); // Just// in case
         robot.CServo.setPosition(.6);
         Thread.sleep(750);
-        robot.poke(robot.RED,1200);
+        robot.poke(robot.BLUE, 1200);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         robot.stopDrive();
-        sleep(3000);
+        Thread.sleep(3000);
         idle();
     }
 }
-
