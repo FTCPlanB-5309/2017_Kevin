@@ -28,11 +28,11 @@ public class RobotHardware {
     public int currentBlue;
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
-    final int ARM_SERVO_UP = 107;
-    final int ARM_SERVO_DOWN = 30;
-    final int JEWEL_SERVO_MIDDLE = 65;
-    final int JEWEL_SERVO_LEFT = 0;
-    final int JEWEL_SERVO_RIGHT = 120;
+    final double ARM_SERVO_UP = 0.42;
+    final double ARM_SERVO_DOWN = 0.12;
+    final double JEWEL_SERVO_MIDDLE = 0.25;
+    final double JEWEL_SERVO_LEFT = 0;
+    final double JEWEL_SERVO_RIGHT = 0.47;
     static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
