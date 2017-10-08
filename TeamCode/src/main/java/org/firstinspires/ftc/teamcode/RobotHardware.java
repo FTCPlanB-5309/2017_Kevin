@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
 import android.test.suitebuilder.annotation.Suppress;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -16,42 +17,30 @@ import com.qualcomm.robotcore.util.Range;
 @SuppressWarnings("unused")
 
 public class RobotHardware {
-    public OpticalDistanceSensor OpticalSensor = null;
     public ColorSensor ColorSensor = null;
-    public Servo rightFinger = null;
-    public Servo CServo = null;
+    public Servo armServo = null;
+    public Servo jewelServo = null;
     public DcMotor leftWheel = null;
     public DcMotor rightWheel = null;
     public DcMotor centerWheel = null;
-    public DcMotor liftMotor1 = null;
-    public DcMotor liftMotor2 = null;
-    public DcMotor rightShooter = null;
-    public DcMotor leftShooter = null;
-    public DcMotor sweeper1 = null;
-    public DcMotor sweeper2 = null;
-    public int color;
+    public DcMotor armMotor = null;
     public int currentRed;
     public int currentBlue;
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
-    final int RIGHT_FINGER_OUT = 1;
-    final int RIGHT_FINGER_IN = 0;
-    final int CLICKS_PER_DEGREE = 25;
-    final int RED = 1;
-    final int BLUE = 3;
+    final int ARM_SERVO_UP = 107;
+    final int ARM_SERVO_DOWN = 30;
+    final int JEWEL_SERVO_MIDDLE = 65;
+    final int JEWEL_SERVO_LEFT = 0;
+    final int JEWEL_SERVO_RIGHT = 120;
     static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    byte[] range1Cache; //The read will return an array of bytes. They are stored in this variable
-    byte[] range2Cache;
-    static final int[] correctionArray = new int[] {-175, -140, -80, 0, 80, 165, 230, 245, 345, 397};
+    public final int BLUE = 0;
+    public final int RED = 1;
 
-//    public I2cDevice RANGE2;
-//    public I2cDeviceSynch RANGE2Reader;
-//    public I2cDevice RANGE1;
-//    public I2cDeviceSynch RANGE1Reader;
 
     public RobotHardware() {
 
@@ -66,23 +55,54 @@ public class RobotHardware {
         leftWheel.setDirection(DcMotor.Direction.FORWARD);
         rightWheel.setDirection(DcMotor.Direction.REVERSE);
         leftWheel.setPower(0);
-        rightWheel.setPower(0);
-        centerWheel.setPower(0);
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        /*
-        RANGE1 = hwMap.i2cDevice.get("range");
-        RANGE2 = hwMap.i2cDevice.get("range2");
-        RANGE2Reader = new I2cDeviceSynchImpl(RANGE1, I2cAddr.create8bit(0x28), false);
-        RANGE1Reader = new I2cDeviceSynchImpl(RANGE2, I2cAddr.create8bit(0x2a), false);
-        leftShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightShooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        RANGE2Reader.engage();
-        RANGE1Reader.engage();
-        rightFinger.setPosition(0.5);
-        CServo.setPosition(0);
-        ColorSensor.enableLed(false);*/
+        armServo = hwMap.servo.get("armServo");
+        jewelServo = hwMap.servo.get("jewelServo");
+        ColorSensor = hwMap.colorSensor.get("colorSensor");
+        ColorSensor.enableLed(true);
+    }
+
+    public void Jewel (int allianceColor) throws InterruptedException {
+        int blueValue = 0;
+        int redValue = 0;
+        jewelServo.setPosition(JEWEL_SERVO_MIDDLE);
+        Thread.sleep(250);
+        armServo.setPosition(ARM_SERVO_DOWN);
+        Thread.sleep(250);
+        blueValue = ColorSensor.blue();
+        redValue = ColorSensor.red();
+        armServo.setPosition(armServo.getPosition() + 0.01);
+        Thread.sleep(500);
+        if (ColorSensor.blue() > blueValue)
+            blueValue = ColorSensor.blue();
+        if (ColorSensor.red() > redValue)
+            redValue = ColorSensor.red();
+        armServo.setPosition(armServo.getPosition() + 0.01);
+        Thread.sleep(500);
+        if (ColorSensor.blue() > blueValue)
+            blueValue = ColorSensor.blue();
+        if (ColorSensor.red() > redValue)
+            redValue = ColorSensor.red();
+        if (allianceColor == BLUE)
+        {
+            if (blueValue > redValue)
+                jewelServo.setPosition(JEWEL_SERVO_RIGHT);
+            if (blueValue < redValue)
+                jewelServo.setPosition(JEWEL_SERVO_LEFT);
+        }
+        else {
+            if (blueValue > redValue)
+                jewelServo.setPosition(JEWEL_SERVO_LEFT);
+            if (blueValue < redValue)
+                jewelServo.setPosition(JEWEL_SERVO_RIGHT);
+        }
+
+        armServo.setPosition(ARM_SERVO_UP);
+        Thread.sleep(250);
+
+
     }
 
     public void rightDrive(double power) {
@@ -147,7 +167,7 @@ public class RobotHardware {
     }
 
     public void leftWheelTurn(double speed, int degrees, int timeInMS) {
-        int clicks = degrees * CLICKS_PER_DEGREE;
+        int clicks = degrees * 6;
 
         leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftWheel.setTargetPosition(clicks);
@@ -170,7 +190,7 @@ public class RobotHardware {
     }
 
     public void rightWheelTurn(double speed, int degrees, int timeInMS) {
-        int clicks = degrees * CLICKS_PER_DEGREE;
+        int clicks = degrees * 6;
 
         rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightWheel.setTargetPosition(clicks);
@@ -190,87 +210,11 @@ public class RobotHardware {
         leftWheel.setPower(0);
     }
 
-    public void findLine(double power) {
-        leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftWheel.setPower(power);
-        rightWheel.setPower(power);
-        while (OpticalSensor.getLightDetected() < .8) {
-            Thread.yield();
-        }
-        // Stop all motion;
-        rightWheel.setPower(0);
-        leftWheel.setPower(0);
-    }
-
-    public void poke(int alliance, double speed) throws InterruptedException {
-        currentBlue = ColorSensor.blue();
-        currentRed = ColorSensor.red();
-        if (currentBlue >= BLUE || currentRed >= RED) {
-            if (currentBlue >= BLUE)
-                color = BLUE;
-            else
-                color = RED;
-            CServo.setPosition(0);
-            if (alliance == color) {
-                rightFinger.setPosition(RIGHT_FINGER_OUT);
-            } else {
-                forward(speed, 4, 750);
-                rightFinger.setPosition(RIGHT_FINGER_OUT);
-            }
-            Thread.sleep(2500);
-            rightFinger.setPosition(RIGHT_FINGER_IN);
-        }
-        CServo.setPosition(0);
-    }
-
-    public void rightTankTurn(int power, int degrees) {
-        int clicks = degrees * CLICKS_PER_DEGREE;
-        rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightWheel.setTargetPosition(clicks);
-        rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightWheel.setPower(power);
-        leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftWheel.setTargetPosition((int) COUNTS_PER_INCH * 4);
-        leftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftWheel.setPower(0.5);
-
-
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        while (rightWheel.isBusy()) {
-            // Allow time for other processes to run.
-            Thread.yield();
-        }
-        rightWheel.setPower(0);
-        leftWheel.setPower(0);
-    }
 
 
 
-    public void leftTankTurn(double power, int degrees) {
-        int clicks = degrees * CLICKS_PER_DEGREE;
 
-        leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftWheel.setTargetPosition(clicks);
-        leftWheel.setPower(power);
-        rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightWheel.setTargetPosition(((int) COUNTS_PER_INCH * 2) + 45);
-        rightWheel.setPower(0.5);
 
-        // keep looping while we are still active, and there is time left, and both motors are running.
-        while (leftWheel.isBusy()) {
-            // Allow time for other processes to run.
-            Thread.yield();
-        }
-
-        // Stop all motion;
-        leftWheel.setPower(0);
-        rightWheel.setPower(0);
-    }
 
     /*public double rangeRead() {
         range1Cache = RANGE1Reader.read(0x04, 2);  //Read 2 bytes starting at 0x04

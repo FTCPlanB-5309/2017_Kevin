@@ -20,26 +20,32 @@ public class Teleop extends OpMode {
         updateTelemetry(telemetry);
         //Standard drive system
 
-        robot.leftDrive(-gamepad1.left_stick_y);
-        robot.rightDrive(-gamepad1.right_stick_y);
-
-
-        if (gamepad1.dpad_left) {
-            robot.centerWheel.setPower(0.75);
+        if(gamepad1.left_stick_y < -.25 || gamepad1.left_stick_x > .25){
+            robot.leftDrive(-gamepad1.left_stick_y);
+            robot.rightDrive(-gamepad1.left_stick_y);
         }
-        else if (gamepad1.dpad_right) {
-            robot.centerWheel.setPower(-0.75);
+        if(gamepad1.left_stick_x < -.25 || gamepad1.left_stick_x > .25)
+            robot.centerWheel.setPower(-gamepad1.left_stick_x);
+        if(gamepad1.right_stick_x < -.25){
+            robot.leftDrive(-gamepad1.right_stick_x);
+            robot.rightDrive(gamepad1.right_stick_x);
         }
-        else{
-            robot.centerWheel.setPower(0);
+        if(gamepad1.right_stick_x > .25){
+            robot.leftDrive(gamepad1.right_stick_x);
+            robot.rightDrive(-gamepad1.right_stick_x);
         }
+        robot.armMotor.setPower(-gamepad2.right_stick_y);
 
         //Reset encoders` for testing purposes
         if (gamepad1.a) {
             robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
         //Telemetry
@@ -49,6 +55,7 @@ public class Teleop extends OpMode {
         telemetry.addData("Left Encoder", robot.leftWheel.getCurrentPosition());
         telemetry.addData("Right Encoder", robot.rightWheel.getCurrentPosition());
         telemetry.addData("Center Encoder", robot.centerWheel.getCurrentPosition());
+        telemetry.addData("Arm Encoder", robot.armMotor.getCurrentPosition());
         telemetry.update();
 
         // Code to run ONCE after the driver hits STOP
