@@ -29,10 +29,10 @@ public class RobotHardware {
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
     final double ARM_SERVO_UP = 0.42;
-    final double ARM_SERVO_DOWN = 0.12;
-    final double JEWEL_SERVO_MIDDLE = 0.25;
+    final double ARM_SERVO_DOWN = 0.05;
+    final double JEWEL_SERVO_MIDDLE = 0.22;
     final double JEWEL_SERVO_LEFT = 0;
-    final double JEWEL_SERVO_RIGHT = 0.47;
+    final double JEWEL_SERVO_RIGHT = 1;
     static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
@@ -60,6 +60,7 @@ public class RobotHardware {
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armServo = hwMap.servo.get("armServo");
         jewelServo = hwMap.servo.get("jewelServo");
+        jewelServo.setPosition(JEWEL_SERVO_RIGHT);
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);
     }
@@ -68,18 +69,18 @@ public class RobotHardware {
         int blueValue = 0;
         int redValue = 0;
         jewelServo.setPosition(JEWEL_SERVO_MIDDLE);
-        Thread.sleep(250);
+        Thread.sleep(3000);
         armServo.setPosition(ARM_SERVO_DOWN);
-        Thread.sleep(250);
+        Thread.sleep(3000);
         blueValue = ColorSensor.blue();
         redValue = ColorSensor.red();
-        armServo.setPosition(armServo.getPosition() + 0.01);
+        armServo.setPosition(armServo.getPosition() - 0.01);
         Thread.sleep(500);
         if (ColorSensor.blue() > blueValue)
             blueValue = ColorSensor.blue();
         if (ColorSensor.red() > redValue)
             redValue = ColorSensor.red();
-        armServo.setPosition(armServo.getPosition() + 0.01);
+        armServo.setPosition(armServo.getPosition() - 0.01);
         Thread.sleep(500);
         if (ColorSensor.blue() > blueValue)
             blueValue = ColorSensor.blue();
@@ -98,9 +99,9 @@ public class RobotHardware {
             if (blueValue < redValue)
                 jewelServo.setPosition(JEWEL_SERVO_RIGHT);
         }
-
+        Thread.sleep(500);
         armServo.setPosition(ARM_SERVO_UP);
-        Thread.sleep(250);
+        Thread.sleep(1000);
 
 
     }

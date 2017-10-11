@@ -19,6 +19,7 @@ public class BlueLeftAuto extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        Thread.sleep(5000);
         robot.Jewel(robot.BLUE);
 
     }
