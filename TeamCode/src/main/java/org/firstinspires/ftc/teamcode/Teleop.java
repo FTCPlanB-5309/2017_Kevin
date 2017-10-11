@@ -5,10 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @TeleOp(name = "Tele-op", group = "Robot")
 @SuppressWarnings("unused")
 public class Teleop extends OpMode {
-    RobotHardware robot = new RobotHardware();
+    RobotHardware robot = new RobotHardware(telemetry);
 
     @Override
     public void init() {

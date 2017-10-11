@@ -8,9 +8,11 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class BlueLeftAuto extends LinearOpMode {
 
-    /* Declare OpMode members. */
-    RobotHardware robot   = new RobotHardware();   // Use a Pushbot's hardware
-
+    //
+    // Creating the robot class from the Plan B Hardware class and passing in telemetry
+    // object as a parameter so that the hardware class can spit out telemetry data
+    //
+    RobotHardware         robot   = new RobotHardware(telemetry);
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -19,7 +21,9 @@ public class BlueLeftAuto extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        Thread.sleep(5000);
+
+        // Wait for the game to start (driver presses PLAY)
+        waitForStart();
         robot.Jewel(robot.BLUE);
 
     }

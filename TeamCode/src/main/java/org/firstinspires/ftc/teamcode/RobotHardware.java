@@ -6,14 +6,11 @@ import android.test.suitebuilder.annotation.Suppress;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDevice;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @SuppressWarnings("unused")
 
 public class RobotHardware {
@@ -40,10 +37,10 @@ public class RobotHardware {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     public final int BLUE = 0;
     public final int RED = 1;
+    Telemetry telemetry;
 
-
-    public RobotHardware() {
-
+    public RobotHardware(Telemetry telemetry){
+        this.telemetry = telemetry;
     }
 
     public void init(HardwareMap ahwMap) {
@@ -99,6 +96,8 @@ public class RobotHardware {
             if (blueValue < redValue)
                 jewelServo.setPosition(JEWEL_SERVO_RIGHT);
         }
+        telemetry.addData("Blue Value", blueValue);
+        telemetry.addData("Red Value", redValue);
         Thread.sleep(500);
         armServo.setPosition(ARM_SERVO_UP);
         Thread.sleep(1000);
