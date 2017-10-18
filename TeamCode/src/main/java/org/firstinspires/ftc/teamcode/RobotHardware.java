@@ -17,6 +17,8 @@ public class RobotHardware {
     public ColorSensor ColorSensor = null;
     public Servo armServo = null;
     public Servo jewelServo = null;
+    public Servo leftClaw = null;
+    public Servo rightClaw = null;
     public DcMotor leftWheel = null;
     public DcMotor rightWheel = null;
     public DcMotor centerWheel = null;
@@ -25,7 +27,7 @@ public class RobotHardware {
     public int currentBlue;
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
-    final double ARM_SERVO_UP = 0.42;
+    final double ARM_SERVO_UP = 0.5;
     final double ARM_SERVO_DOWN = 0.05;
     final double JEWEL_SERVO_MIDDLE = 0.22;
     final double JEWEL_SERVO_LEFT = 0;
@@ -49,6 +51,7 @@ public class RobotHardware {
         leftWheel = hwMap.dcMotor.get("LD");
         rightWheel = hwMap.dcMotor.get("RD");
         centerWheel = hwMap.dcMotor.get("CD");
+        armMotor = hwMap.dcMotor.get("AD");
         leftWheel.setDirection(DcMotor.Direction.FORWARD);
         rightWheel.setDirection(DcMotor.Direction.REVERSE);
         leftWheel.setPower(0);
@@ -57,6 +60,8 @@ public class RobotHardware {
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armServo = hwMap.servo.get("armServo");
         jewelServo = hwMap.servo.get("jewelServo");
+        leftClaw = hwMap.servo.get("LC");
+        rightClaw = hwMap.servo.get("RC");
         jewelServo.setPosition(JEWEL_SERVO_RIGHT);
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);

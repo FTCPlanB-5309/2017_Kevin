@@ -13,6 +13,8 @@ public class BlueLeftAuto extends LinearOpMode {
     // object as a parameter so that the hardware class can spit out telemetry data
     //
     RobotHardware         robot   = new RobotHardware(telemetry);
+    Jewel                 jewel   = new Jewel(robot, telemetry);
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -24,7 +26,7 @@ public class BlueLeftAuto extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        robot.Jewel(robot.BLUE);
+        jewel.JewelSwatter(robot.BLUE);
 
     }
 
