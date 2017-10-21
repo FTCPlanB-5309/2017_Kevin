@@ -46,12 +46,12 @@ public class Teleop extends OpMode {
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
 
        if (gamepad2.right_bumper) {
-            robot.leftClaw.setPosition(0.1);
-            robot.rightClaw.setPosition(0.35);
+            robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
+            robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
         }
         else if (gamepad2.right_trigger > 0.4) {
-            robot.leftClaw.setPosition(0.29);
-            robot.leftClaw.setPosition(0.12);
+            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
+            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         }
 
 
