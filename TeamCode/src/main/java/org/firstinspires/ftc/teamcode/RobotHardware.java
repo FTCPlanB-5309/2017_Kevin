@@ -42,7 +42,7 @@ public class RobotHardware {
     private ElapsedTime runtime = new ElapsedTime();
     final int RIGHT = 314152693;
     final int LEFT = 396251413;
-    final double ARM_SERVO_UP = 0.71;
+    final double ARM_SERVO_UP = 0.89;
     final double ARM_SERVO_DOWN = 0.05;
     final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
