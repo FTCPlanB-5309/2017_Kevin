@@ -5,13 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-@TeleOp(name = "Teleop Mixed Drive", group = "Robot")
+@TeleOp(name = "Teleop Seperate Drive", group = "Robot")
 @SuppressWarnings("unused")
-public class Teleop extends OpMode {
+public class TeleopSlide extends OpMode {
     RobotHardware robot = new RobotHardware(telemetry);
-    AutoArm autoArm = new AutoArm(robot, telemetry);
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -21,24 +19,22 @@ public class Teleop extends OpMode {
     public void loop() {
         updateTelemetry(telemetry);
         //Standard drive system
-
-        if(gamepad1.left_stick_y < -.25 || gamepad1.left_stick_y > .25){
+        if(gamepad1.left_stick_x < -.25 || gamepad1.left_stick_x > 0.25){
+            robot.leftDrive(-gamepad1.right_stick_x);
+            robot.rightDrive(gamepad1.right_stick_x);
+        }
+        else if(gamepad1.left_stick_y < -.25 || gamepad1.left_stick_y > .25){
             robot.leftDrive(gamepad1.left_stick_y);
             robot.rightDrive(gamepad1.left_stick_y);
         }
 
-        if(gamepad1.left_stick_x < -.25 || gamepad1.left_stick_x > .25)
-            robot.centerWheel.setPower(-gamepad1.left_stick_x);
+        if(gamepad1.right_stick_x < -.25 || gamepad1.right_stick_x > .25)
+            robot.centerWheel.setPower(-gamepad1.right_stick_x);
 
-        if(gamepad1.left_stick_x > -.25 && gamepad1.left_stick_x < .25)
+        if(gamepad1.right_stick_x > -.25 && gamepad1.right_stick_x < .25)
             robot.centerWheel.setPower(0);
 
-        if(gamepad1.right_stick_x < -.25 || gamepad1.right_stick_x > 0.25){
-            robot.leftDrive(-gamepad1.right_stick_x);
-            robot.rightDrive(gamepad1.right_stick_x);
-        }
-
-        if(gamepad1.right_stick_x < .25 && gamepad1.right_stick_x > -.25 && gamepad1.left_stick_y > -.25 && gamepad1.left_stick_y < .25){
+        if(gamepad1.left_stick_x < .25 && gamepad1.left_stick_x > -.25 && gamepad1.left_stick_y > -.25 && gamepad1.left_stick_y < .25){
             robot.leftDrive(0);
             robot.rightDrive(0);
         }
@@ -57,17 +53,16 @@ public class Teleop extends OpMode {
 
 
         //Reset encoders` for testing purposes
-        if (gamepad1.a)
-            autoArm.run(robot.ARM_POSITION_ZERO);
-
-        if (gamepad1.b)
-            autoArm.run(robot.ARM_POSITION_TWO);
-
-        if (gamepad1.x)
-            autoArm.run(robot.ARM_POSITION_ONE);
-
-        if (gamepad1.y)
-            autoArm.run(robot.ARM_POSITION_THREE);
+        if (gamepad1.a) {
+            robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
 
         //Telemetry
 //        telemetry.addData("Shooter Encoders L/R", robot.leftShooter.getCurrentPosition() + "/" + robot.rightShooter.getCurrentPosition());
