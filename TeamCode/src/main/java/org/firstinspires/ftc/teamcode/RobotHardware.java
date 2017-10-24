@@ -8,6 +8,19 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -27,11 +40,23 @@ public class RobotHardware {
     public int currentBlue;
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
-    final double ARM_SERVO_UP = 0.5;
+    final int RIGHT = 314152693;
+    final int LEFT = 396251413;
+    final int ARM_POSITION_ZERO = 0;
+    final int ARM_POSITION_ONE = 1;
+    final int ARM_POSITION_TWO = 2;
+    final int ARM_POSITION_THREE = 3;
+    final int ARM_POSITION_FOUR = 4;
+    final double ARM_SERVO_UP = 0.89;
     final double ARM_SERVO_DOWN = 0.05;
-    final double JEWEL_SERVO_MIDDLE = 0.22;
+    final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
+    final double LEFT_CLAW_CLOSED = 0.5;
+    final double LEFT_CLAW_OPEN = 0.2;
+    final double RIGHT_CLAW_CLOSED = 0.5;
+    final double RIGHT_CLAW_OPEN = 0.7;
+    public static int armPosition = 0;
     static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
@@ -62,7 +87,10 @@ public class RobotHardware {
         jewelServo = hwMap.servo.get("jewelServo");
         leftClaw = hwMap.servo.get("LC");
         rightClaw = hwMap.servo.get("RC");
-        jewelServo.setPosition(JEWEL_SERVO_RIGHT);
+        jewelServo.setPosition(JEWEL_SERVO_LEFT);
+        armServo.setPosition(ARM_SERVO_UP);
+        leftClaw.setPosition(LEFT_CLAW_OPEN);
+        rightClaw.setPosition(RIGHT_CLAW_OPEN);
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);
     }
