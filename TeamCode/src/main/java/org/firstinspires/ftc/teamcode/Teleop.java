@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp(name = "Teleop Mixed Drive", group = "Robot")
+@TeleOp(name = "Tele-op", group = "Robot")
 @SuppressWarnings("unused")
 public class Teleop extends OpMode {
     RobotHardware robot = new RobotHardware(telemetry);
-    AutoArm autoArm = new AutoArm(robot, telemetry);
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -46,28 +46,27 @@ public class Teleop extends OpMode {
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
 
        if (gamepad2.right_bumper) {
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
+            robot.leftClaw.setPosition(0.1);
+            robot.rightClaw.setPosition(0.35);
         }
         else if (gamepad2.right_trigger > 0.4) {
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
+            robot.leftClaw.setPosition(0.29);
+            robot.leftClaw.setPosition(0.12);
         }
 
 
 
         //Reset encoders` for testing purposes
-        if (gamepad1.a)
-            autoArm.run(robot.ARM_POSITION_ZERO);
-
-        if (gamepad1.b)
-            autoArm.run(robot.ARM_POSITION_TWO);
-
-        if (gamepad1.x)
-            autoArm.run(robot.ARM_POSITION_ONE);
-
-        if (gamepad1.y)
-            autoArm.run(robot.ARM_POSITION_THREE);
+        if (gamepad1.a) {
+            robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
 
         //Telemetry
 //        telemetry.addData("Shooter Encoders L/R", robot.leftShooter.getCurrentPosition() + "/" + robot.rightShooter.getCurrentPosition());

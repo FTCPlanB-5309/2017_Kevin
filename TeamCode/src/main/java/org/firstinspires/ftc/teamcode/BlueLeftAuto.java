@@ -8,26 +8,26 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 
 public class BlueLeftAuto extends LinearOpMode {
 
-    RobotHardware robot=new RobotHardware(telemetry);
+    //
+    // Creating the robot class from the Plan B Hardware class and passing in telemetry
+    // object as a parameter so that the hardware class can spit out telemetry data
+    //
+    RobotHardware         robot   = new RobotHardware(telemetry);
     Jewel                 jewel   = new Jewel(robot, telemetry);
-    Forward    forward=new Forward(robot, telemetry);
-    Slide                 slide   = new Slide(robot, telemetry);
 
     @Override
     public void runOpMode() throws InterruptedException {
-    //
+
+        /*
+         * Initialize the drive system variables.
+         * The init() method of the hardware class does all the work here
+         */
         robot.init(hardwareMap);
+
+        // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        //jewel.JewelSwatter(robot.BLUE);
-        robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
-        robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
-        Thread.sleep(300);
-        robot.armMotor.setPower(0.5);
-        Thread.sleep(250);
-        robot.armMotor.setPower(0);
-        forward.run(.5, 26);
-        slide.run(.5, 6, robot.RIGHT);
-        forward.run(.5, 4);
+        jewel.JewelSwatter(robot.BLUE);
+
     }
 
 }
