@@ -44,19 +44,34 @@ public class Teleop extends OpMode {
         }
 
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
+        robot.relicArm.setPower(-gamepad2.left_stick_y/2);
 
        if (gamepad2.right_bumper) {
-            robot.leftClaw.setPosition(0.1);
-            robot.rightClaw.setPosition(0.35);
+            robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
+            robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
         }
         else if (gamepad2.right_trigger > 0.4) {
-            robot.leftClaw.setPosition(0.29);
-            robot.rightClaw.setPosition(0.12);
+            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
+            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         }
+        if (gamepad2.left_bumper) {
+            robot.leftRelic.setPosition(robot.LEFT_RELIC_OPEN);
+            robot.rightRelic.setPosition(robot.RIGHT_RELIC_OPEN);
+        }
+        else if (gamepad2.right_trigger > 0.4) {
+            robot.leftRelic.setPosition(robot.LEFT_RELIC_CLOSED);
+            robot.rightRelic.setPosition(robot.RIGHT_RELIC_CLOSED);
+        }
+        if(gamepad2.dpad_up)
+            robot.extensionRelic.setPosition(robot.extensionRelic.getPosition()+0.01);
+        if(gamepad2.dpad_down)
+            robot.extensionRelic.setPosition(robot.extensionRelic.getPosition()-0.01);
+        if(gamepad2.dpad_left)
+            robot.wristRelic.setPosition(robot.wristRelic.getPosition()-0.01);
+        if(gamepad2.dpad_right)
+            robot.wristRelic.setPosition(robot.wristRelic.getPosition()+0.01);
 
 
-
-        //Reset encoders` for testing purposes
         if (gamepad1.a) {
             robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -68,17 +83,10 @@ public class Teleop extends OpMode {
             robot.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
-        //Telemetry
-//        telemetry.addData("Shooter Encoders L/R", robot.leftShooter.getCurrentPosition() + "/" + robot.rightShooter.getCurrentPosition());
-//        telemetry.addData("Range Sensor 1", robot.rangeRead());
-//        telemetry.addData("Range Sensor 2", robot.rangeRead2());
-//        telemetry.addData("Left Encoder", robot.leftWheel.getCurrentPosition());
-//        telemetry.addData("Right Encoder", robot.rightWheel.getCurrentPosition());
-//        telemetry.addData("Center Encoder", robot.centerWheel.getCurrentPosition());
-//        telemetry.addData("Arm Encoder", robot.armMotor.getCurrentPosition());
-//        telemetry.update();
-
-        // Code to run ONCE after the driver hits STOP
+        telemetry.addData("Left Encoder", robot.leftWheel.getCurrentPosition());
+        telemetry.addData("Right Encoder", robot.rightWheel.getCurrentPosition());
+        telemetry.addData("Center Encoder", robot.centerWheel.getCurrentPosition());telemetry.addData("Arm Encoder", robot.armMotor.getCurrentPosition());
+        telemetry.update();
 
     }
 

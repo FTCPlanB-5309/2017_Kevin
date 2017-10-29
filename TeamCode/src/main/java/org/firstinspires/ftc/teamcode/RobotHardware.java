@@ -22,6 +22,11 @@ public class RobotHardware {
     public Servo jewelServo = null;
     public Servo leftClaw = null;
     public Servo rightClaw = null;
+    public Servo rightRelic = null;
+    public Servo leftRelic = null;
+    public Servo wristRelic = null;
+    public Servo extensionRelic = null;
+    public DcMotor relicArm = null;
     public DcMotor leftWheel = null;
     public DcMotor rightWheel = null;
     public DcMotor centerWheel = null;
@@ -40,7 +45,12 @@ public class RobotHardware {
     final double RIGHT_CLAW_CLOSED =0.12;
     final double LEFT_CLAW_OPEN = 0.1;
     final double LEFT_CLAW_CLOSED = 0.29;
-    final int LEFT = 1010110111;
+    final double RIGHT_RELIC_OPEN = 0;
+    final double RIGHT_RELIC_CLOSED =0;
+    final double LEFT_RELIC_OPEN = 0;
+    final double LEFT_RELIC_CLOSED = 0;
+    final double INIT_RELIC_WRIST = 0.5;
+    final int LEFT = 101011011;
     final int RIGHT = 10101111;
     public int armPosition;
     static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
@@ -63,6 +73,11 @@ public class RobotHardware {
         rightWheel = hwMap.dcMotor.get("RD");
         centerWheel = hwMap.dcMotor.get("CD");
         armMotor = hwMap.dcMotor.get("AD");
+        relicArm = hwMap.dcMotor.get("RA");
+        leftRelic = hwMap.servo.get("LR");
+        rightRelic = hwMap.servo.get("RR");
+        wristRelic = hwMap.servo.get("WR");
+        extensionRelic = hwMap.servo.get("ER");
         leftWheel.setDirection(DcMotor.Direction.FORWARD);
         rightWheel.setDirection(DcMotor.Direction.REVERSE);
         leftWheel.setPower(0);
@@ -77,6 +92,7 @@ public class RobotHardware {
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);
         gyroSensor = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
+        wristRelic.setPosition(INIT_RELIC_WRIST);
     }
 
     public void Jewel (int allianceColor) throws InterruptedException {
