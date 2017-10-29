@@ -51,7 +51,7 @@ public class Teleop extends OpMode {
         }
         else if (gamepad2.right_trigger > 0.4) {
             robot.leftClaw.setPosition(0.29);
-            robot.leftClaw.setPosition(0.12);
+            robot.rightClaw.setPosition(0.12);
         }
 
 

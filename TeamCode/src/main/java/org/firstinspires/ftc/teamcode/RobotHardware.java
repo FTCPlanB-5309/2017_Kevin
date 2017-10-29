@@ -36,6 +36,13 @@ public class RobotHardware {
     final double JEWEL_SERVO_MIDDLE = 0.22;
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
+    final double RIGHT_CLAW_OPEN = 0.35;
+    final double RIGHT_CLAW_CLOSED =0.12;
+    final double LEFT_CLAW_OPEN = 0.1;
+    final double LEFT_CLAW_CLOSED = 0.29;
+    final int LEFT = 1010110111;
+    final int RIGHT = 10101111;
+    public int armPosition;
     static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
