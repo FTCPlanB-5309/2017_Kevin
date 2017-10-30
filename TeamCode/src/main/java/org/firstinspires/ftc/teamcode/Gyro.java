@@ -5,7 +5,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Gyro {
     RobotHardware robot;
     Telemetry telemetry;
-    final int Q4TOQ1 = 123;
+
+    enum quadrantCode {
+        Q1toQ4,
+        Q4toQ1,
+        QOther
+    }
+
+    final String Q4TOQ1 = "Q1 to Q4";
+    //final int Q4TOQ1 = 123;
     final int Q1TOQ4 = 456;
     final int OTHERQ = 789;
     final int LEFT = 987;
@@ -17,15 +25,15 @@ public class Gyro {
     }
 
     public void turn(int target) {
-        int quadrant;
+        quadrantCode qCode;
         int currentHeading;
         int direction;
         int speed;
         currentHeading = robot.gyroSensor.getHeading();
         while (currentHeading != target) {
-            quadrant = getQuadrant(target, currentHeading);
-            direction = getDirection(target, quadrant, currentHeading);
-            speed = getSpeed(target, currentHeading, quadrant);
+            qCode = getQuadrant(target, currentHeading);
+            direction = getDirection(target, qCode, currentHeading);
+            speed = getSpeed(target, currentHeading, qCode);
             if (direction == LEFT) {
                 robot.rightWheel.setPower(speed);
                 robot.leftWheel.setPower(-speed);
@@ -33,7 +41,7 @@ public class Gyro {
                 robot.rightWheel.setPower(-speed);
                 robot.leftWheel.setPower(speed);
             }
-            telemetry.addData("quadrant",quadrant);
+            telemetry.addData("Quadrant", qCode);
             telemetry.addData("target",target);
             telemetry.addData("speed",speed);
             telemetry.addData("direction",direction);
@@ -43,23 +51,23 @@ public class Gyro {
         robot.leftWheel.setPower(0);
     }
 
-    int getQuadrant (int target, int currentHeading) {
-        int quadrant;
+     quadrantCode getQuadrant (int target, int currentHeading) {
+        quadrantCode qCode;
         if (currentHeading >= 270 && target < 90) {
-            quadrant = Q4TOQ1;
+            qCode = quadrantCode.Q4toQ1;
         }
         else if (currentHeading < 90 && target >= 270) {
-            quadrant = Q1TOQ4;
-        } else quadrant = OTHERQ;
-        return quadrant;
+            qCode = quadrantCode.Q1toQ4;
+        } else qCode = quadrantCode.QOther;
+        return qCode;
     }
 
-    int getDirection (int target, int quadrant, int currentHeading) {
+    int getDirection (int target, quadrantCode qCode, int currentHeading) {
         int direction;
-        if (quadrant == Q1TOQ4) {
+        if (qCode == quadrantCode.Q1toQ4) {
             direction = LEFT;
         }
-        else if (quadrant == Q4TOQ1) {
+        else if (qCode == quadrantCode.Q4toQ1) {
             direction = RIGHT;
         }
         else {
@@ -80,13 +88,13 @@ public class Gyro {
     }
 
 
-    int getSpeed (int target, int currentHeading, int quadrant) {
+    int getSpeed (int target, int currentHeading, quadrantCode qCode) {
         int distance;
         int speed;
-        if (quadrant == Q1TOQ4) {
+        if (qCode == quadrantCode.Q1toQ4) {
             distance = currentHeading + (359 - target);
         }
-        else if (quadrant == Q4TOQ1) {
+        else if (qCode == quadrantCode.Q4toQ1) {
             distance = target + (359 - currentHeading);
         }
         else {

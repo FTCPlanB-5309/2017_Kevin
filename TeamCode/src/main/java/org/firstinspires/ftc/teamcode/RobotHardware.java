@@ -17,7 +17,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @SuppressWarnings("unused")
 
 public class RobotHardware {
-    public ColorSensor ColorSensor = null;
+    /*
+     * Define DC motors
+     */
+    public DcMotor relicArm = null;
+    public DcMotor leftWheel = null;
+    public DcMotor rightWheel = null;
+    public DcMotor centerWheel = null;
+    public DcMotor armMotor = null;
+    /*
+     * Define Servos
+     */
     public Servo armServo = null;
     public Servo jewelServo = null;
     public Servo leftClaw = null;
@@ -26,30 +36,38 @@ public class RobotHardware {
     public Servo leftRelic = null;
     public Servo wristRelic = null;
     public Servo extensionRelic = null;
-    public DcMotor relicArm = null;
-    public DcMotor leftWheel = null;
-    public DcMotor rightWheel = null;
-    public DcMotor centerWheel = null;
-    public DcMotor armMotor = null;
+    /*
+     * Define sensors
+     */
+    public ColorSensor ColorSensor = null;
     public ModernRoboticsI2cGyro gyroSensor = null;
-    public int currentRed;
-    public int currentBlue;
+
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
-    final double ARM_SERVO_UP = 0.5;
-    final double ARM_SERVO_DOWN = 0.05;
-    final double JEWEL_SERVO_MIDDLE = 0.22;
+    /*
+     * Define Servo Constants
+     */
+    final double ARM_SERVO_UP = 0.88;
+    final double ARM_SERVO_DOWN = 0.274;
+
+    final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
-    final double RIGHT_CLAW_OPEN = 0.35;
-    final double RIGHT_CLAW_CLOSED =0.12;
-    final double LEFT_CLAW_OPEN = 0.1;
-    final double LEFT_CLAW_CLOSED = 0.29;
-    final double RIGHT_RELIC_OPEN = 0;
-    final double RIGHT_RELIC_CLOSED =0;
-    final double LEFT_RELIC_OPEN = 0;
-    final double LEFT_RELIC_CLOSED = 0;
-    final double INIT_RELIC_WRIST = 0.5;
+
+    final double RIGHT_CLAW_OPEN = 0.627;
+    final double RIGHT_CLAW_CLOSED =0.47;
+
+    final double LEFT_CLAW_OPEN = 0.156;
+    final double LEFT_CLAW_CLOSED = 0.41;
+
+    final double RIGHT_RELIC_OPEN = .196;
+    final double RIGHT_RELIC_CLOSED = .333;
+
+    final double LEFT_RELIC_OPEN = .549;
+    static final double LEFT_RELIC_CLOSED = .411;
+
+    static final double INIT_RELIC_WRIST = 0.5;
+
     final int LEFT = 101011011;
     final int RIGHT = 10101111;
     public int armPosition;
@@ -80,19 +98,29 @@ public class RobotHardware {
         extensionRelic = hwMap.servo.get("ER");
         leftWheel.setDirection(DcMotor.Direction.FORWARD);
         rightWheel.setDirection(DcMotor.Direction.REVERSE);
-        leftWheel.setPower(0);
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         armServo = hwMap.servo.get("armServo");
         jewelServo = hwMap.servo.get("jewelServo");
         leftClaw = hwMap.servo.get("LC");
         rightClaw = hwMap.servo.get("RC");
-        jewelServo.setPosition(JEWEL_SERVO_RIGHT);
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);
         gyroSensor = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
+        /*
+         * Set initial servo positions
+         */
+        armServo.setPosition(ARM_SERVO_UP);
+        jewelServo.setPosition(JEWEL_SERVO_LEFT);
+        leftClaw.setPosition(LEFT_CLAW_OPEN);
+        rightClaw.setPosition(RIGHT_CLAW_OPEN);
+        leftRelic.setPosition(LEFT_RELIC_CLOSED);
+        rightRelic.setPosition(RIGHT_RELIC_CLOSED);
         wristRelic.setPosition(INIT_RELIC_WRIST);
+        extensionRelic.setPosition(INIT_RELIC_WRIST);
+
     }
 
     public void Jewel (int allianceColor) throws InterruptedException {
