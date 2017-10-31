@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.Suppress;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
@@ -96,8 +97,8 @@ public class RobotHardware {
         rightRelic = hwMap.servo.get("RR");
         wristRelic = hwMap.servo.get("WR");
         extensionRelic = hwMap.servo.get("ER");
-        leftWheel.setDirection(DcMotor.Direction.FORWARD);
-        rightWheel.setDirection(DcMotor.Direction.REVERSE);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.FORWARD);
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

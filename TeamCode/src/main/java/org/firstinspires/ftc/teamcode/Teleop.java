@@ -23,8 +23,8 @@ public class Teleop extends OpMode {
         //Standard drive system
 
         if(gamepad1.left_stick_y < -.25 || gamepad1.left_stick_y > .25){
-            robot.leftDrive(gamepad1.left_stick_y);
-            robot.rightDrive(gamepad1.left_stick_y);
+            robot.leftDrive(-gamepad1.left_stick_y);
+            robot.rightDrive(-gamepad1.left_stick_y);
         }
 
         if(gamepad1.left_stick_x < -.25 || gamepad1.left_stick_x > .25)
@@ -34,8 +34,8 @@ public class Teleop extends OpMode {
             robot.centerWheel.setPower(0);
 
         if(gamepad1.right_stick_x < -.25 || gamepad1.right_stick_x > 0.25){
-            robot.leftDrive(-gamepad1.right_stick_x);
-            robot.rightDrive(gamepad1.right_stick_x);
+            robot.leftDrive(gamepad1.right_stick_x);
+            robot.rightDrive(-gamepad1.right_stick_x);
         }
 
         if(gamepad1.right_stick_x < .25 && gamepad1.right_stick_x > -.25 && gamepad1.left_stick_y > -.25 && gamepad1.left_stick_y < .25){
@@ -58,18 +58,24 @@ public class Teleop extends OpMode {
             robot.leftRelic.setPosition(robot.LEFT_RELIC_OPEN);
             robot.rightRelic.setPosition(robot.RIGHT_RELIC_OPEN);
         }
-        else if (gamepad2.right_trigger > 0.4) {
+        else if (gamepad2.left_trigger > 0.4) {
             robot.leftRelic.setPosition(robot.LEFT_RELIC_CLOSED);
             robot.rightRelic.setPosition(robot.RIGHT_RELIC_CLOSED);
         }
         if(gamepad2.dpad_up)
-            robot.extensionRelic.setPosition(robot.extensionRelic.getPosition()+0.01);
+            robot.extensionRelic.setPosition(1);
         if(gamepad2.dpad_down)
-            robot.extensionRelic.setPosition(robot.extensionRelic.getPosition()-0.01);
+            robot.extensionRelic.setPosition(0);
+        if(!gamepad2.dpad_down && !gamepad2.dpad_up)
+            robot.extensionRelic.setPosition(0.5);
         if(gamepad2.dpad_left)
             robot.wristRelic.setPosition(robot.wristRelic.getPosition()-0.01);
+        if(robot.wristRelic.getPosition() < 0)
+            robot.wristRelic.setPosition(0);
         if(gamepad2.dpad_right)
             robot.wristRelic.setPosition(robot.wristRelic.getPosition()+0.01);
+        if(robot.wristRelic.getPosition() > 1)
+            robot.wristRelic.setPosition(1);
 
 
         if (gamepad1.a) {
