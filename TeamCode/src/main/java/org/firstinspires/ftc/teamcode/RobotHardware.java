@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.Suppress;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
@@ -48,7 +49,7 @@ public class RobotHardware {
      * Define Servo Constants
      */
     final double ARM_SERVO_UP = 0.88;
-    final double ARM_SERVO_DOWN = 0.274;
+    final double ARM_SERVO_DOWN = 0.24;
 
     final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
@@ -96,8 +97,8 @@ public class RobotHardware {
         rightRelic = hwMap.servo.get("RR");
         wristRelic = hwMap.servo.get("WR");
         extensionRelic = hwMap.servo.get("ER");
-        leftWheel.setDirection(DcMotor.Direction.FORWARD);
-        rightWheel.setDirection(DcMotor.Direction.REVERSE);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.FORWARD);
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -122,48 +123,6 @@ public class RobotHardware {
         extensionRelic.setPosition(.5);
     }
 
-    public void Jewel (int allianceColor) throws InterruptedException {
-        int blueValue = 0;
-        int redValue = 0;
-        jewelServo.setPosition(JEWEL_SERVO_MIDDLE);
-        Thread.sleep(3000);
-        armServo.setPosition(ARM_SERVO_DOWN);
-        Thread.sleep(3000);
-        blueValue = ColorSensor.blue();
-        redValue = ColorSensor.red();
-        armServo.setPosition(armServo.getPosition() - 0.01);
-        Thread.sleep(500);
-        if (ColorSensor.blue() > blueValue)
-            blueValue = ColorSensor.blue();
-        if (ColorSensor.red() > redValue)
-            redValue = ColorSensor.red();
-        armServo.setPosition(armServo.getPosition() - 0.01);
-        Thread.sleep(500);
-        if (ColorSensor.blue() > blueValue)
-            blueValue = ColorSensor.blue();
-        if (ColorSensor.red() > redValue)
-            redValue = ColorSensor.red();
-        if (allianceColor == BLUE)
-        {
-            if (blueValue > redValue)
-                jewelServo.setPosition(JEWEL_SERVO_RIGHT);
-            if (blueValue < redValue)
-                jewelServo.setPosition(JEWEL_SERVO_LEFT);
-        }
-        else {
-            if (blueValue > redValue)
-                jewelServo.setPosition(JEWEL_SERVO_LEFT);
-            if (blueValue < redValue)
-                jewelServo.setPosition(JEWEL_SERVO_RIGHT);
-        }
-        telemetry.addData("Blue Value", blueValue);
-        telemetry.addData("Red Value", redValue);
-        Thread.sleep(500);
-        armServo.setPosition(ARM_SERVO_UP);
-        Thread.sleep(1000);
-
-
-    }
 
     public void rightDrive(double power) {
         rightWheel.setPower(power);

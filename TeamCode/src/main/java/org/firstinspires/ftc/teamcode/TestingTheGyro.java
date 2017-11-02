@@ -42,11 +42,14 @@ public class TestingTheGyro extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        while(true) {
             telemetry.addData("Current Heading", robot.gyroSensor.getHeading());
             telemetry.update();
-            sleep(50);
-        }
+            sleep(3000);
+            gyro.turn(45);
+            sleep(3000);
+            gyro.turn(315);
+            sleep(3000);
+            gyro.turn(0);
 
     }
 

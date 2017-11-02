@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
@@ -6,18 +8,18 @@ public class Gyro {
     RobotHardware robot;
     Telemetry telemetry;
 
+    final  double SPEED = 0.07;
+
     enum quadrantCode {
         Q1toQ4,
         Q4toQ1,
         QOther
     }
 
-    final String Q4TOQ1 = "Q1 to Q4";
-    //final int Q4TOQ1 = 123;
-    final int Q1TOQ4 = 456;
-    final int OTHERQ = 789;
-    final int LEFT = 987;
-    final int RIGHT = 654;
+    enum directionCode {
+        Left,
+        Right
+    }
 
     public Gyro (RobotHardware robot, Telemetry telemetry) {
         this.robot = robot;
@@ -27,25 +29,28 @@ public class Gyro {
     public void turn(int target) {
         quadrantCode qCode;
         int currentHeading;
-        int direction;
-        int speed;
+        directionCode direction;
         currentHeading = robot.gyroSensor.getHeading();
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         while (currentHeading != target) {
+            currentHeading = robot.gyroSensor.getHeading();
             qCode = getQuadrant(target, currentHeading);
             direction = getDirection(target, qCode, currentHeading);
-            speed = getSpeed(target, currentHeading, qCode);
-            if (direction == LEFT) {
-                robot.rightWheel.setPower(speed);
-                robot.leftWheel.setPower(-speed);
+            if (direction == direction.Left) {
+                robot.rightWheel.setPower(SPEED);
+                robot.leftWheel.setPower(-SPEED);
             } else {
-                robot.rightWheel.setPower(-speed);
-                robot.leftWheel.setPower(speed);
+                robot.rightWheel.setPower(-SPEED);
+                robot.leftWheel.setPower(SPEED);
             }
             telemetry.addData("Quadrant", qCode);
+
             telemetry.addData("target",target);
-            telemetry.addData("speed",speed);
+            telemetry.addData("speed",SPEED);
             telemetry.addData("direction",direction);
             telemetry.addData("currentHeading",currentHeading);
+            telemetry.update();
         }
         robot.rightWheel.setPower(0);
         robot.leftWheel.setPower(0);
@@ -62,59 +67,34 @@ public class Gyro {
         return qCode;
     }
 
-    int getDirection (int target, quadrantCode qCode, int currentHeading) {
-        int direction;
+    directionCode getDirection (int target, quadrantCode qCode, int currentHeading) {
+        directionCode direction;
         if (qCode == quadrantCode.Q1toQ4) {
-            direction = LEFT;
+            direction = directionCode.Right;
         }
         else if (qCode == quadrantCode.Q4toQ1) {
-            direction = RIGHT;
+            direction = directionCode.Left;
         }
         else {
             if (currentHeading < target) {
                 if (currentHeading - target < 180) {
-                    direction = LEFT;
+                    direction = directionCode.Left;
                 }
-                else direction = RIGHT;
+                else direction = directionCode.Right;
             }
             else {
                 if (target - currentHeading < 180) {
-                    direction = RIGHT;
+                    direction = directionCode.Right;
                 }
-                else direction = LEFT;
+                else direction = directionCode.Left;
             }
         }
         return  direction;
     }
 
 
-    int getSpeed (int target, int currentHeading, quadrantCode qCode) {
-        int distance;
-        int speed;
-        if (qCode == quadrantCode.Q1toQ4) {
-            distance = currentHeading + (359 - target);
-        }
-        else if (qCode == quadrantCode.Q4toQ1) {
-            distance = target + (359 - currentHeading);
-        }
-        else {
-            distance = Math.abs(currentHeading - target);
-            if (distance > 180) {
-                distance = 360 - distance;
-            }
-        }
-
-        if (distance >= 100) {
-            speed = 1;
-        }
-        else if (distance > 10 && distance < 100) {
-            speed = distance/100;
-        }
-        else  {
-            speed = distance;
-        }
-
-        return  speed;
+    double getSpeed (int target, int currentHeading, quadrantCode qCode) {
+        return  0.07;
         }
     }
 
