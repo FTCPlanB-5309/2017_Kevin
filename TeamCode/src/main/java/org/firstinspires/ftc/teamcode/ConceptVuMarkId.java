@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by mgold on 10/31/2017.
@@ -17,15 +18,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class ConceptVuMarkId {
 
     Telemetry telemetry;
-
-    private VuforiaTrackables relicTrackables;
+    VuforiaLocalizer vuforia;
+    RelicRecoveryVuMark columnPosition = RelicRecoveryVuMark.UNKNOWN;
+    VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
 
     public ConceptVuMarkId(HardwareMap hwMap, Telemetry telemetry)
     {
         int cameraMonitorViewId;
-        VuforiaLocalizer vuforia;
         this.telemetry = telemetry;
+
+
 
         /*
          * To start up Vuforia, tell it the view that we wish to use for camera monitor (on the RC phone);
@@ -56,22 +59,24 @@ public class ConceptVuMarkId {
          * but differ in their instance id information.
          * @see VuMarkInstanceId
          */
-        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
     }
 
-    public RelicRecoveryVuMark findColumn (int MaxTimeInMillseconds)
+    public RelicRecoveryVuMark findColumn (int MaxTimeInMilliseconds)throws InterruptedException
     {
-        double currentMilliseconds;
-        RelicRecoveryVuMark columnPosition = RelicRecoveryVuMark.UNKNOWN;
-        currentMilliseconds = System.currentTimeMillis();
+
+        ElapsedTime runTime = new ElapsedTime();
+
 
         relicTrackables.activate();  // Start looking for VuMark
+        columnPosition = RelicRecoveryVuMark.from(relicTemplate);
+        runTime.reset();
 
         while ( columnPosition == RelicRecoveryVuMark.UNKNOWN &&
-                currentMilliseconds + MaxTimeInMillseconds < System.currentTimeMillis()) {
-            /*
+                runTime.milliseconds() < MaxTimeInMilliseconds) {
+            /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
              * {@link RelicRecoveryVuMark} is an enum which can have the following values:
              * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
@@ -79,14 +84,18 @@ public class ConceptVuMarkId {
              */
             columnPosition = RelicRecoveryVuMark.from(relicTemplate);
             if (columnPosition != RelicRecoveryVuMark.UNKNOWN) {
-                /*
-                 * Found an instance of the template.
-                 */
+
+                /* Found an instance of the template. In the actual game, you will probably
+                 * loop until this condition occurs, then move on to act accordingly depending
+                 * on which VuMark was visible. */
                 telemetry.addData("VuMark", "%s visible", columnPosition);
+                telemetry.update();
             }
             else {
                 telemetry.addData("VuMark", "not visible");
+                telemetry.update();
             }
+            telemetry.addData("Time Looking", runTime.toString());
             telemetry.update();
         }
         return columnPosition;

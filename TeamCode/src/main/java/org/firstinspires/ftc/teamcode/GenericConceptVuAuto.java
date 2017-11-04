@@ -31,60 +31,17 @@ public class GenericConceptVuAuto extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        Jewel           jewel           = new Jewel(robot, telemetry);
-        Forward         forward         = new Forward(robot,telemetry);
-        Slide           slide           = new Slide(robot, telemetry);
-        Gyro            gyro            = new Gyro(robot, telemetry);
         ConceptVuMarkId conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
-
         RelicRecoveryVuMark columnPosition;
 
         waitForStart();
-        /*
-         * Swat the jewel
-         */
-        jewel.JewelSwatter(robot.BLUE);
+
         /*
          * Look for VuMark for no more than 15 seconds
          */
         columnPosition = conceptVuMarkId.findColumn(15000);
-
-        /*
-         * Grab the glyph
-         */
-        robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
-        robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
-        sleep(1000);
-
-        /*
-         * Raise the Glyph Arm
-         */
-        robot.armMotor.setPower(.25);
-        sleep(400);
-        robot.armMotor.setPower(0);
-        sleep(500);
-
-        /*
-         * Drive off the balancing stone
-         */
-        forward.run(0.25, 24);
-        sleep(1000);
-
-        /*
-         * Realign to zero
-         */
-        gyro.turn(0);
-
-        /*
-         * slide over in front of glyph box
-         */
-        slide.run(0.5, 6, robot.RIGHT);
-        sleep(1000);
-
-        /*
-         * stuff the glyph in the box
-         */
-        forward.run(0.3, 6);
-        sleep(1000);
+        telemetry.addData("Column Position", columnPosition);
+        telemetry.update();
+        sleep(15000);
     }
 }
