@@ -13,7 +13,8 @@ public class Backward {
         this.telemetry = telemetry;
     }
 
-    public void run(double speed, int distance){robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    public void run(double speed, int distance){
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         int target = (int) (distance * robot.COUNTS_PER_INCH);
         robot.leftWheel.setTargetPosition(-target);

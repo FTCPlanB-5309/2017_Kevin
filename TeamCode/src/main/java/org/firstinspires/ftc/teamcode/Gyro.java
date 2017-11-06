@@ -27,6 +27,8 @@ public class Gyro {
     }
 
     public void turn(int target) {
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         quadrantCode qCode;
         int currentHeading;
         directionCode direction;
