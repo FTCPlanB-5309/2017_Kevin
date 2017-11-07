@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.test.suitebuilder.annotation.Suppress;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -42,6 +44,7 @@ public class RobotHardware {
      */
     public ColorSensor ColorSensor = null;
     public ModernRoboticsI2cGyro gyroSensor = null;
+    public ModernRoboticsI2cRangeSensor sonicOne = null;
 
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
@@ -110,6 +113,7 @@ public class RobotHardware {
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);
         gyroSensor = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
+        sonicOne = hwMap.get(ModernRoboticsI2cRangeSensor.class, "S1");
         /*
          * Set initial servo positions
          */

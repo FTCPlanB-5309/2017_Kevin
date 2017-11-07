@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -35,23 +37,35 @@ public class BlueLeftAuto extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
+        ConceptVuMarkId conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
+        RelicRecoveryVuMark columnPosition;
         waitForStart();
         jewel.JewelSwatter(robot.BLUE);
-        sleep(1000);
+        sleep(500);
+        columnPosition = conceptVuMarkId.findColumn(5000);
+        telemetry.addData("Column Position", columnPosition);
+        telemetry.update();
+        sleep(500);
         robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
-        sleep(1000);
+        sleep(500);
         robot.armMotor.setPower(.25);
         sleep(400);
         robot.armMotor.setPower(0);
-        sleep(1000);
+        sleep(500);
         forward.run(0.25, 24);
-        sleep(1000);
+        sleep(500);
+        slide.run(0.5, 12, robot.LEFT);
         gyro.turn(0);
-        slide.run(0.5, 6, robot.RIGHT);
-        sleep(1000);
-        forward.run(0.5, 6);
-        sleep(1000);
+        robot.centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.centerWheel.setPower(0.07);
+        while(true){
+            telemetry.addData("Slide Encoder", robot.centerWheel.getCurrentPosition());
+            telemetry.addData("Ultrasonic Reading", robot.sonicOne.cmUltrasonic());
+            telemetry.update();
+        }
+//        sleep(500);
+//        forward.run(0.5, 6);
+//        sleep(500);
     }
-
 }
