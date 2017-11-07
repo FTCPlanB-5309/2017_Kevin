@@ -52,23 +52,23 @@ public class RobotHardware {
      * Define Servo Constants
      */
     final double ARM_SERVO_UP = 0.88;
-    final double ARM_SERVO_DOWN = 0.24;
+    final double ARM_SERVO_DOWN = 0.25;
 
     final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
 
     final double RIGHT_CLAW_OPEN = 0.627;
-    final double RIGHT_CLAW_CLOSED =0.47;
+    final double RIGHT_CLAW_CLOSED = 0.47;
 
     final double LEFT_CLAW_OPEN = 0.156;
     final double LEFT_CLAW_CLOSED = 0.41;
 
-    final double RIGHT_RELIC_OPEN = .196;
-    final double RIGHT_RELIC_CLOSED = .333;
+    final double RIGHT_RELIC_OPEN = 0.196;
+    final double RIGHT_RELIC_CLOSED = 0.333;
 
-    final double LEFT_RELIC_OPEN = .549;
-    static final double LEFT_RELIC_CLOSED = .411;
+    final double LEFT_RELIC_OPEN = 0.549;
+    static final double LEFT_RELIC_CLOSED = 0.411;
 
     static final double INIT_RELIC_WRIST = 0.5;
 

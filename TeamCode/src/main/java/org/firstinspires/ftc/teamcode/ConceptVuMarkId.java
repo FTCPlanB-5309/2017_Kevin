@@ -98,6 +98,8 @@ public class ConceptVuMarkId {
             telemetry.addData("Time Looking", runTime.toString());
             telemetry.update();
         }
+        if (columnPosition == RelicRecoveryVuMark.UNKNOWN)
+            columnPosition = RelicRecoveryVuMark.LEFT;
         return columnPosition;
     }
 }

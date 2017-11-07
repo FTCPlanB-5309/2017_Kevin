@@ -34,6 +34,7 @@ public class BlueLeftAuto extends LinearOpMode {
     Forward forward = new Forward(robot,telemetry);
     Slide slide = new Slide(robot, telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
+    SonicAlign sonicAlign = new SonicAlign(robot, telemetry);
 
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
@@ -53,12 +54,16 @@ public class BlueLeftAuto extends LinearOpMode {
         sleep(400);
         robot.armMotor.setPower(0);
         sleep(500);
-        forward.run(0.25, 24);
+         forward.run(0.25, 24);
         sleep(500);
-        slide.run(0.5, 12, robot.LEFT);
         gyro.turn(0);
+        slide.run(0.5, 6, robot.LEFT);
+        sonicAlign.run(columnPosition);
+        slide.run(0.25, 3, robot.LEFT);
+        forward.run(0.5, 3);
+        /*robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.centerWheel.setPower(0.07);
+        robot.centerWheel.setPower(-0.07);
         while(true){
             telemetry.addData("Slide Encoder", robot.centerWheel.getCurrentPosition());
             telemetry.addData("Ultrasonic Reading", robot.sonicOne.cmUltrasonic());
@@ -66,6 +71,7 @@ public class BlueLeftAuto extends LinearOpMode {
         }
 //        sleep(500);
 //        forward.run(0.5, 6);
-//        sleep(500);
+//        sleep(500);*/
     }
 }
+
