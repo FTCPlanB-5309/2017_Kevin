@@ -79,13 +79,13 @@ public class Gyro {
         }
         else {
             if (currentHeading < target) {
-                if (currentHeading - target < 180) {
+                if (target - currentHeading < 180) {
                     direction = directionCode.Left;
                 }
                 else direction = directionCode.Right;
             }
             else {
-                if (target - currentHeading < 180) {
+                if (currentHeading - target < 180) {
                     direction = directionCode.Right;
                 }
                 else direction = directionCode.Left;

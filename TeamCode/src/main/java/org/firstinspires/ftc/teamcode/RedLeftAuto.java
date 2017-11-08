@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-/**
- * Created by user on 11/1/2017.
- */
 @Autonomous(name="Left Red Autonomous", group="Red")
 
 public class RedLeftAuto extends LinearOpMode {
@@ -24,6 +21,7 @@ public class RedLeftAuto extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
         jewel.JewelSwatter(robot.RED);
+        forward.run(0.25, -25);
     }
 
 }

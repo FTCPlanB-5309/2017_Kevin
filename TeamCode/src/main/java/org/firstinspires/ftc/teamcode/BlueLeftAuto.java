@@ -34,13 +34,18 @@ public class BlueLeftAuto extends LinearOpMode {
     Forward forward = new Forward(robot,telemetry);
     Slide slide = new Slide(robot, telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
-    SonicAlign sonicAlign = new SonicAlign(robot, telemetry);
+    SonicAlign sonicAlign = new SonicAlign(robot, telemetry, slide);
 
     public void runOpMode() throws InterruptedException {
+        double distanceForward;
+        int forwardIntDistance;
+
+
         robot.init(hardwareMap);
         ConceptVuMarkId conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
         RelicRecoveryVuMark columnPosition;
         waitForStart();
+        robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.BLUE);
         sleep(500);
         columnPosition = conceptVuMarkId.findColumn(5000);
@@ -50,28 +55,17 @@ public class BlueLeftAuto extends LinearOpMode {
         robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         sleep(500);
-        robot.armMotor.setPower(.25);
+        robot.armMotor.setPower(0.25);
         sleep(400);
         robot.armMotor.setPower(0);
         sleep(500);
-         forward.run(0.25, 24);
+         forward.run(0.25, 25);
         sleep(500);
         gyro.turn(0);
-        slide.run(0.5, 6, robot.LEFT);
-        sonicAlign.run(columnPosition);
-        slide.run(0.25, 3, robot.LEFT);
-        forward.run(0.5, 3);
-        /*robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.centerWheel.setPower(-0.07);
-        while(true){
-            telemetry.addData("Slide Encoder", robot.centerWheel.getCurrentPosition());
-            telemetry.addData("Ultrasonic Reading", robot.sonicOne.cmUltrasonic());
-            telemetry.update();
-        }
-//        sleep(500);
-//        forward.run(0.5, 6);
-//        sleep(500);*/
+        //slide.run(0.5, 6, robot.LEFT);
+        distanceForward = sonicAlign.run(columnPosition);
+        forward.run(0.5, 6);
+
     }
 }
 

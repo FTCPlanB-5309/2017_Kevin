@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+
 /**
  * Created by user on 11/1/2017.
  */
@@ -19,26 +21,35 @@ public class BlueRightAuto extends LinearOpMode {
     Forward forward = new Forward(robot,telemetry);
     Slide slide = new Slide(robot, telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
+    SonicAlign sonicAlign = new SonicAlign(robot, telemetry, slide);
 
     public void runOpMode() throws InterruptedException {
+        double distanceForward;
+
         robot.init(hardwareMap);
+        ConceptVuMarkId conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
+        RelicRecoveryVuMark columnPosition;
         waitForStart();
+        robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.BLUE);
         sleep(1000);
+        columnPosition = conceptVuMarkId.findColumn(5000);
         robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         sleep(1000);
-        robot.armMotor.setPower(.25);
+        robot.armMotor.setPower(0.25);
         sleep(400);
         robot.armMotor.setPower(0);
         sleep(1000);
-        forward.run(0.25, 24);
+        forward.run(0.25, 25);
         sleep(1000);
+        slide.run(0.25, 1, robot.RIGHT);
         gyro.turn(90);
-        slide.run(0.5, 6, robot.RIGHT);
         sleep(1000);
-        forward.run(0.5, 6);
+        //forward.run(0.5, 6);
         sleep(1000);
+        distanceForward = sonicAlign.run(columnPosition);
+        forward.run(0.5, 9);
     }
 
 }

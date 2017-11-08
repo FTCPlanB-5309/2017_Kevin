@@ -101,5 +101,6 @@ public class ConceptVuMarkId {
         if (columnPosition == RelicRecoveryVuMark.UNKNOWN)
             columnPosition = RelicRecoveryVuMark.LEFT;
         return columnPosition;
+
     }
 }

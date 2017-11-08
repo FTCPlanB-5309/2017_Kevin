@@ -75,7 +75,7 @@ public class RobotHardware {
     final int LEFT = 101011011;
     final int RIGHT = 10101111;
     public int armPosition;
-    static final double COUNTS_PER_MOTOR_REV = 1180;    // eg: TETRIX Motor Encoder
+    static final double COUNTS_PER_MOTOR_REV = 1080;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -125,6 +125,11 @@ public class RobotHardware {
         rightRelic.setPosition(RIGHT_RELIC_CLOSED);
         wristRelic.setPosition(INIT_RELIC_WRIST);
         extensionRelic.setPosition(.5);
+
+        /*
+        Initializing gyro
+         */
+        gyroSensor.calibrate();
     }
 
 
