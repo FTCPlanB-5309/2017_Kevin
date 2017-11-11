@@ -8,7 +8,7 @@ public class Gyro {
     RobotHardware robot;
     Telemetry telemetry;
 
-    final  double SPEED = 0.07;
+    double speed;
 
     enum quadrantCode {
         Q1toQ4,
@@ -39,17 +39,18 @@ public class Gyro {
             currentHeading = robot.gyroSensor.getHeading();
             qCode = getQuadrant(target, currentHeading);
             direction = getDirection(target, qCode, currentHeading);
+            speed = getSpeed(target, currentHeading, qCode);
             if (direction == direction.Left) {
-                robot.rightWheel.setPower(SPEED);
-                robot.leftWheel.setPower(-SPEED);
+                robot.rightWheel.setPower(speed);
+                robot.leftWheel.setPower(-speed);
             } else {
-                robot.rightWheel.setPower(-SPEED);
-                robot.leftWheel.setPower(SPEED);
+                robot.rightWheel.setPower(-speed);
+                robot.leftWheel.setPower(speed);
             }
             telemetry.addData("Quadrant", qCode);
 
             telemetry.addData("target",target);
-            telemetry.addData("speed",SPEED);
+            telemetry.addData("speed",speed);
             telemetry.addData("direction",direction);
             telemetry.addData("currentHeading",currentHeading);
             telemetry.update();
@@ -96,6 +97,29 @@ public class Gyro {
 
 
     double getSpeed (int target, int currentHeading, quadrantCode qCode) {
+        int distance;
+        if (qCode == quadrantCode.Q4toQ1) {
+            distance = (target + (360 - currentHeading));
+            if (distance > 45)
+                return 0.25;
+            else
+                return 0.07;
+        }
+
+        if (qCode == quadrantCode.Q1toQ4){
+            distance = (currentHeading + (360 - target));
+            if (distance > 45)
+                return 0.25;
+            else
+                return 0.07;
+        }
+
+        if (qCode == quadrantCode.QOther) {
+            if (Math.abs(currentHeading - target) > 45)
+                return 0.25;
+            else
+                return 0.07;
+        }
         return  0.07;
         }
     }

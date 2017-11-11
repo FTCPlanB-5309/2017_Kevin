@@ -38,7 +38,7 @@ public class BlueRightAuto extends LinearOpMode {
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         sleep(1000);
         robot.armMotor.setPower(0.25);
-        sleep(400);
+        sleep(600);
         robot.armMotor.setPower(0);
         sleep(1000);
         forward.run(0.25, 25);
@@ -49,7 +49,7 @@ public class BlueRightAuto extends LinearOpMode {
         //forward.run(0.5, 6);
         sleep(1000);
         distanceForward = sonicAlign.run(columnPosition);
-        forward.run(0.5, 9);
+        forward.run(0.5, (int)distanceForward);
     }
 
 }

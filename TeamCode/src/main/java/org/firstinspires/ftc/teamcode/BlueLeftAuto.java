@@ -56,15 +56,15 @@ public class BlueLeftAuto extends LinearOpMode {
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         sleep(500);
         robot.armMotor.setPower(0.25);
-        sleep(400);
+        sleep(600);
         robot.armMotor.setPower(0);
         sleep(500);
-         forward.run(0.25, 25);
+        forward.run(0.25, 25);
         sleep(500);
         gyro.turn(0);
         //slide.run(0.5, 6, robot.LEFT);
         distanceForward = sonicAlign.run(columnPosition);
-        forward.run(0.5, 6);
+        forward.run(0.5, (int)distanceForward);
 
     }
 }

@@ -5,6 +5,7 @@ import android.transition.*;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
@@ -21,7 +22,23 @@ public class SonicAlign {
         this.slide = slide;
     }
     public double run(RelicRecoveryVuMark columnPosition) throws InterruptedException{
+        double baseline;
+        baseline = findColumn();
+        if (columnPosition == RelicRecoveryVuMark.CENTER){
+            slide.run(0.07, 3, robot.RIGHT);
+            baseline = findColumn();
+        }
+        if (columnPosition == RelicRecoveryVuMark.RIGHT){
+            slide.run(0.07, 10, robot.RIGHT);
+            baseline = findColumn();
+        }
+        Thread.sleep(500);
+        return baseline - 6;
+    }
+
+    double findColumn  () throws InterruptedException {
         double baseline = robot.sonicOne.cmUltrasonic();
+        double baselineInches = robot.sonicOne.getDistance(DistanceUnit.INCH);
         robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.centerWheel.setPower(-0.07);
@@ -31,17 +48,8 @@ public class SonicAlign {
             telemetry.update();
 
         }
+        robot.centerWheel.setPower(0);
         Thread.sleep(500);
-        if (columnPosition == RelicRecoveryVuMark.LEFT){
-            slide.run(0.07, 3, robot.LEFT);
-        }
-        if (columnPosition == RelicRecoveryVuMark.CENTER){
-            slide.run(0.07, 6, robot.RIGHT);
-        }
-        if (columnPosition == RelicRecoveryVuMark.RIGHT){
-            slide.run(0.07, 12, robot.RIGHT);
-        }
-        Thread.sleep(500);
-        return (robot.sonicOne.cmUltrasonic() / 2.54) - 6;
+        return baselineInches;
     }
 }
