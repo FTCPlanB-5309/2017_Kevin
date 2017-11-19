@@ -12,12 +12,13 @@ public class Slide {
         this.telemetry = telemetry;
     }
 
-    public void run(double speed, int distance, int direction){
+    public void run(double speed, int distance, int direction) throws InterruptedException{
         if(direction == robot.LEFT)
             direction = 1;
         else
             direction = -1;
         robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Thread.sleep(250);
         int target = (int) (distance * robot.COUNTS_PER_INCH)*direction;
         robot.centerWheel.setTargetPosition(target);
         robot.centerWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);

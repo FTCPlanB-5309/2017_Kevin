@@ -82,6 +82,7 @@ public class RobotHardware {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     public final int BLUE = 0;
     public final int RED = 1;
+    public final float DEADZONE = 0.1f;
     Telemetry telemetry;
 
     public RobotHardware(Telemetry telemetry){
@@ -102,6 +103,8 @@ public class RobotHardware {
         extensionRelic = hwMap.servo.get("ER");
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
         rightWheel.setDirection(DcMotor.Direction.FORWARD);
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
+        relicArm.setDirection(DcMotor.Direction.REVERSE);
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

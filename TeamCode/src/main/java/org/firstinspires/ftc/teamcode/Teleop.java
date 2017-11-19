@@ -11,6 +11,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @SuppressWarnings("unused")
 public class Teleop extends OpMode {
     RobotHardware robot = new RobotHardware(telemetry);
+    float getStickValue(float joy){
+        if(-joy < -robot.DEADZONE){
+            return ((-joy+robot.DEADZONE)/(1-robot.DEADZONE));
+        }
+        else if (-joy > robot.DEADZONE){
+            return ((-joy-robot.DEADZONE)/(1-robot.DEADZONE));
+        }
+        else {
+            return(0);
+        }
+    }
 
     @Override
     public void init() {
@@ -20,28 +31,17 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         updateTelemetry(telemetry);
-        //Standard drive system
 
-        if(gamepad1.left_stick_y < -.25 || gamepad1.left_stick_y > .25){
-            robot.leftDrive(-gamepad1.left_stick_y);
-            robot.rightDrive(-gamepad1.left_stick_y);
-        }
 
-        if(gamepad1.left_stick_x < -.25 || gamepad1.left_stick_x > .25)
-            robot.centerWheel.setPower(-gamepad1.left_stick_x);
+        float lx=getStickValue(gamepad1.left_stick_x);
+        robot.centerWheel.setPower(lx);
 
-        if(gamepad1.left_stick_x > -.25 && gamepad1.left_stick_x < .25)
-            robot.centerWheel.setPower(0);
+        float ly=getStickValue(gamepad1.left_stick_y);
+        float rx=getStickValue(gamepad1.right_stick_x);
+        robot.leftWheel.setPower(ly + rx);
+        robot.rightWheel.setPower(ly - rx);
 
-        if(gamepad1.right_stick_x < -.25 || gamepad1.right_stick_x > 0.25){
-            robot.leftDrive(gamepad1.right_stick_x);
-            robot.rightDrive(-gamepad1.right_stick_x);
-        }
 
-        if(gamepad1.right_stick_x < .25 && gamepad1.right_stick_x > -.25 && gamepad1.left_stick_y > -.25 && gamepad1.left_stick_y < .25){
-            robot.leftDrive(0);
-            robot.rightDrive(0);
-        }
 
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
         robot.relicArm.setPower(-gamepad2.left_stick_y/2);
