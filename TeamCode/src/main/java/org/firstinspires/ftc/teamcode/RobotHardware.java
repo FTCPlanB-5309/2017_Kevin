@@ -68,9 +68,9 @@ public class RobotHardware {
     final double RIGHT_RELIC_CLOSED = 0.333;
 
     final double LEFT_RELIC_OPEN = 0.549;
-    static final double LEFT_RELIC_CLOSED = 0.411;
+    final double LEFT_RELIC_CLOSED = 0.411;
 
-    static final double INIT_RELIC_WRIST = 0.5;
+    final double INIT_RELIC_WRIST = 0.5;
 
     final int LEFT = 101011011;
     final int RIGHT = 10101111;

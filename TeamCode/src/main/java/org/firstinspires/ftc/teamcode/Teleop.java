@@ -32,17 +32,16 @@ public class Teleop extends OpMode {
     public void loop() {
         updateTelemetry(telemetry);
 
-
         float lx=getStickValue(gamepad1.left_stick_x);
         robot.centerWheel.setPower(lx);
 
         float ly=getStickValue(gamepad1.left_stick_y);
+        ly = -ly;  //reversing motors
         float rx=getStickValue(gamepad1.right_stick_x);
         robot.leftWheel.setPower(ly + rx);
         robot.rightWheel.setPower(ly - rx);
 
-
-
+        //
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
         robot.relicArm.setPower(-gamepad2.left_stick_y/2);
 
@@ -62,12 +61,15 @@ public class Teleop extends OpMode {
             robot.leftRelic.setPosition(robot.LEFT_RELIC_CLOSED);
             robot.rightRelic.setPosition(robot.RIGHT_RELIC_CLOSED);
         }
+        // handle extension arm
         if(gamepad2.dpad_up)
             robot.extensionRelic.setPosition(1);
         if(gamepad2.dpad_down)
             robot.extensionRelic.setPosition(0);
         if(!gamepad2.dpad_down && !gamepad2.dpad_up)
             robot.extensionRelic.setPosition(0.5);
+
+        // handle wrist (open close rotate
         if(gamepad2.dpad_left)
             robot.wristRelic.setPosition(robot.wristRelic.getPosition()-0.01);
         if(robot.wristRelic.getPosition() < 0)
