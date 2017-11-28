@@ -36,23 +36,33 @@ public class Teleop extends OpMode {
         robot.centerWheel.setPower(lx);
 
         float ly=getStickValue(gamepad1.left_stick_y);
-        ly = -ly;  //reversing motors
         float rx=getStickValue(gamepad1.right_stick_x);
         robot.leftWheel.setPower(ly + rx);
         robot.rightWheel.setPower(ly - rx);
 
         //
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
-        robot.relicArm.setPower(-gamepad2.left_stick_y/2);
+        robot.relicArm.setPower(-gamepad2.left_stick_y);
 
        if (gamepad2.right_bumper) {
             robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
             robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
+           robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_OPEN);
+           robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_OPEN);
         }
         else if (gamepad2.right_trigger > 0.4) {
             robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
             robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
+           robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_CLOSED);
+           robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_CLOSED);
         }
+        if (gamepad2.right_stick_button){
+            robot.leftClaw.setPosition(robot.LEFT_CLAW_SOFT);
+            robot.rightClaw.setPosition(robot.RIGHT_CLAW_SOFT);
+            robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_SOFT);
+            robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_SOFT);
+        }
+
         if (gamepad2.left_bumper) {
             robot.leftRelic.setPosition(robot.LEFT_RELIC_OPEN);
             robot.rightRelic.setPosition(robot.RIGHT_RELIC_OPEN);
@@ -61,6 +71,7 @@ public class Teleop extends OpMode {
             robot.leftRelic.setPosition(robot.LEFT_RELIC_CLOSED);
             robot.rightRelic.setPosition(robot.RIGHT_RELIC_CLOSED);
         }
+
         // handle extension arm
         if(gamepad2.dpad_up)
             robot.extensionRelic.setPosition(1);

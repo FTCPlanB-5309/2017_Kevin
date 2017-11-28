@@ -35,6 +35,8 @@ public class RobotHardware {
     public Servo jewelServo = null;
     public Servo leftClaw = null;
     public Servo rightClaw = null;
+    public Servo upperRightClaw = null;
+    public Servo upperLeftClaw = null;
     public Servo rightRelic = null;
     public Servo leftRelic = null;
     public Servo wristRelic = null;
@@ -58,12 +60,18 @@ public class RobotHardware {
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
 
-    final double RIGHT_CLAW_OPEN = 0.627;
-    final double RIGHT_CLAW_CLOSED = 0.47;
-
-    final double LEFT_CLAW_OPEN = 0.156;
-    final double LEFT_CLAW_CLOSED = 0.41;
-
+    final double RIGHT_CLAW_OPEN = 0.235;
+    final double RIGHT_CLAW_CLOSED = 0.431;
+    final double RIGHT_CLAW_SOFT = 0.333;
+    final double LEFT_CLAW_OPEN = 0.627;
+    final double LEFT_CLAW_CLOSED = 0.5;
+    final double LEFT_CLAW_SOFT =0.567;
+    final double UPPER_RIGHT_CLAW_OPEN = 0.471;
+    final double UPPER_RIGHT_CLAW_CLOSED = 0.686;
+    final double UPPER_RIGHT_CLAW_SOFT =0.58;
+    final double UPPER_LEFT_CLAW_OPEN = 0.667;
+    final double UPPER_LEFT_CLAW_CLOSED = 0.451;
+    final double UPPER_LEFT_CLAW_SOFT = 0.515;
     final double RIGHT_RELIC_OPEN = 0.196;
     final double RIGHT_RELIC_CLOSED = 0.333;
 
@@ -104,6 +112,7 @@ public class RobotHardware {
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
         rightWheel.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         relicArm.setDirection(DcMotor.Direction.REVERSE);
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -113,6 +122,8 @@ public class RobotHardware {
         jewelServo = hwMap.servo.get("jewelServo");
         leftClaw = hwMap.servo.get("LC");
         rightClaw = hwMap.servo.get("RC");
+        upperLeftClaw = hwMap.servo.get("uRC");
+        upperRightClaw = hwMap.servo.get("uLC");
         ColorSensor = hwMap.colorSensor.get("colorSensor");
         ColorSensor.enableLed(true);
         gyroSensor = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
@@ -127,6 +138,8 @@ public class RobotHardware {
         leftRelic.setPosition(LEFT_RELIC_CLOSED);
         rightRelic.setPosition(RIGHT_RELIC_CLOSED);
         wristRelic.setPosition(INIT_RELIC_WRIST);
+        upperRightClaw.setPosition(UPPER_RIGHT_CLAW_OPEN);
+        upperLeftClaw.setPosition(UPPER_LEFT_CLAW_OPEN);
         extensionRelic.setPosition(.5);
 
         /*
