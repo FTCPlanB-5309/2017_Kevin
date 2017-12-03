@@ -37,8 +37,8 @@ public class Teleop extends OpMode {
 
         float ly=getStickValue(gamepad1.left_stick_y);
         float rx=getStickValue(gamepad1.right_stick_x);
-        robot.leftWheel.setPower(ly + rx);
-        robot.rightWheel.setPower(ly - rx);
+        robot.leftWheel.setPower(ly - rx);
+        robot.rightWheel.setPower(ly + rx);
 
         //
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);

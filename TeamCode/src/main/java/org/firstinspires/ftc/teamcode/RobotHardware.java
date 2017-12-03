@@ -62,16 +62,16 @@ public class RobotHardware {
 
     final double RIGHT_CLAW_OPEN = 0.235;
     final double RIGHT_CLAW_CLOSED = 0.431;
-    final double RIGHT_CLAW_SOFT = 0.333;
+    final double RIGHT_CLAW_SOFT = 0.283;
     final double LEFT_CLAW_OPEN = 0.627;
     final double LEFT_CLAW_CLOSED = 0.5;
-    final double LEFT_CLAW_SOFT =0.567;
+    final double LEFT_CLAW_SOFT =0.58;
     final double UPPER_RIGHT_CLAW_OPEN = 0.471;
     final double UPPER_RIGHT_CLAW_CLOSED = 0.686;
-    final double UPPER_RIGHT_CLAW_SOFT =0.58;
+    final double UPPER_RIGHT_CLAW_SOFT =0.53;
     final double UPPER_LEFT_CLAW_OPEN = 0.667;
     final double UPPER_LEFT_CLAW_CLOSED = 0.451;
-    final double UPPER_LEFT_CLAW_SOFT = 0.515;
+    final double UPPER_LEFT_CLAW_SOFT = 0.550;
     final double RIGHT_RELIC_OPEN = 0.196;
     final double RIGHT_RELIC_CLOSED = 0.333;
 
