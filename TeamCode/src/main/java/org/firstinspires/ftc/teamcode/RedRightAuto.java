@@ -29,7 +29,7 @@ public class RedRightAuto extends LinearOpMode {
         waitForStart();
         robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.RED);
-        sleep(500);
+        /*sleep(500);
         columnPosition = conceptVuMarkId.findColumn(5000);
         telemetry.addData("Column Position", columnPosition);
         telemetry.update();
@@ -44,10 +44,11 @@ public class RedRightAuto extends LinearOpMode {
         forward.run(0.25, -25);
         slide.run(0.25, 1, robot.RIGHT);
         sleep(500);
-        gyro.turn(90);
+        gyro.turn(180);
         //slide.run(0.5, 6, robot.LEFT);
         distanceForward = sonicAlign.run(columnPosition);
         forward.run(0.5, (int) distanceForward);
+        */
     }
 
 }

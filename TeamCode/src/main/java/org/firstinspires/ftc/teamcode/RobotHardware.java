@@ -197,13 +197,17 @@ public class RobotHardware {
         rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // reset the timeout time and start motion.
-        leftWheel.setPower(speed);
+        leftWheel.setPower(-speed);
         rightWheel.setPower(speed);
         runtime.reset();
         // keep looping while we are still active, and there is time left, and both motors are running.
         while (leftWheel.isBusy() && rightWheel.isBusy() && runtime.milliseconds() < timeInMS) {
             // Allow time for other processes to run.
             Thread.yield();
+
+            telemetry.addData("left wheel encoder: ", leftWheel.getCurrentPosition());
+            telemetry.addData("right wheel encoder", rightWheel.getCurrentPosition());
+            telemetry.update();
         }
         // Stop all motion;
         leftWheel.setPower(0);

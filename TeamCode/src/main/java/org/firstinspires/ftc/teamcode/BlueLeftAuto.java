@@ -38,20 +38,18 @@ public class BlueLeftAuto extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         double distanceForward;
-        int forwardIntDistance;
 
 
         robot.init(hardwareMap);
-        ConceptVuMarkId conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
-        RelicRecoveryVuMark columnPosition;
+//        ConceptVuMarkId conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
+        RelicRecoveryVuMark columnPosition = RelicRecoveryVuMark.LEFT;
         waitForStart();
         robot.gyroSensor.resetZAxisIntegrator();
-        jewel.JewelSwatter(robot.BLUE);
-        sleep(500);
-        columnPosition = conceptVuMarkId.findColumn(5000);
-        telemetry.addData("Column Position", columnPosition);
-        telemetry.update();
-        sleep(500);
+//        jewel.JewelSwatter(robot.BLUE);
+//        sleep(500);
+//        columnPosition = conceptVuMarkId.findColumn(5000);
+//        telemetry.addData("Column Position", columnPosition);
+//        telemetry.update();
         robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         sleep(500);
@@ -59,12 +57,19 @@ public class BlueLeftAuto extends LinearOpMode {
         sleep(600);
         robot.armMotor.setPower(0);
         sleep(500);
-        forward.run(0.25, 25);
+        forward.run(0.25, 31);
         sleep(500);
         gyro.turn(0);
         //slide.run(0.5, 6, robot.LEFT);
         distanceForward = sonicAlign.run(columnPosition);
         forward.run(0.5, (int)distanceForward);
+        slide.run(0.5, 36, robot.RIGHT);
+        forward.run(0.25, 18);
+        slide.run(0.25, 12, robot.LEFT);
+//
+//        robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
+//        robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
+//        forward.run(0.2, -6);
 
     }
 }
