@@ -22,6 +22,7 @@ public class AutoTest extends LinearOpMode{
     Slide slide = new Slide(robot, telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
     SonicAlign sonicAlign = new SonicAlign(robot, telemetry, slide);
+    ArmHandler armHandler = new ArmHandler(robot, telemetry);
 
     public void runOpMode() throws InterruptedException {
         double distanceForward;
@@ -36,14 +37,7 @@ public class AutoTest extends LinearOpMode{
         robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
         robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
         sleep(250);
-        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.armMotor.setTargetPosition(robot.GLYPH_ARM_UP);
-        robot.armMotor.setPower(0.5);
-        while (robot.armMotor.isBusy() && opModeIsActive()) {
-            Thread.yield();
-        }
-        robot.armMotor.setPower(0.0);
+        armHandler.armToPosition(robot.GLYPH_ARM_UP);
 
         //Traveling off the platform
         slide.run(1, 18, robot.RIGHT);
