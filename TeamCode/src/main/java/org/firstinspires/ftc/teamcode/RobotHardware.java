@@ -55,11 +55,11 @@ public class RobotHardware {
      */
     final double ARM_SERVO_UP = 0.88;
     final double ARM_SERVO_DOWN = 0.25;
-
     final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
 
+    final int GLYPH_ARM_UP = 3100;
     final double RIGHT_CLAW_OPEN = 0.235;
     final double RIGHT_CLAW_CLOSED = 0.431;
     final double RIGHT_CLAW_SOFT = 0.283;
