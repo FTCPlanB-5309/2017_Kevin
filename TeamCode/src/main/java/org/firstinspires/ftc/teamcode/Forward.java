@@ -12,7 +12,7 @@ public class Forward {
         this.telemetry = telemetry;
     }
 
-    public void run(double speed, int distance) throws InterruptedException{
+    public void run(double speed, int distance) throws InterruptedException {
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Thread.sleep(250);

@@ -12,15 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class Diagnostic extends LinearOpMode {
 
-    //
-    // Creating the robot class from the Plan B Hardware class and passing in telemetry
-    // object as a parameter so that the hardware class can spit out telemetry data
-    //
     RobotHardware         robot   = new RobotHardware(telemetry);
-    Jewel                 jewel   = new Jewel(robot, telemetry);
-    Forward forward = new Forward(robot,telemetry);
-    Slide slide = new Slide(robot, telemetry);
-    Gyro gyro = new Gyro(robot, telemetry);
 
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
@@ -31,16 +23,22 @@ public class Diagnostic extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
-        while(!isStopRequested()){
+        while(opModeIsActive()){
             telemetry.addData("7 Heading: ", robot.gyroSensor.getHeading());
             telemetry.addData("4 X: ", robot.gyroSensor.rawX());
             telemetry.addData("5 Y: ", robot.gyroSensor.rawY());
             telemetry.addData("6 Z: ", robot.gyroSensor.rawZ());
-            telemetry.addData("1 R: ", robot.ColorSensor.red());
-            telemetry.addData("2 G: ", robot.ColorSensor.green());
-            telemetry.addData("3 B: ", robot.ColorSensor.blue());
-            telemetry.addData("8 Alpha: ", robot.ColorSensor.alpha());
+            telemetry.addData("1 R: ", robot.JewelColorSensor.red());
+            telemetry.addData("2 G: ", robot.JewelColorSensor.green());
+            telemetry.addData("3 B: ", robot.JewelColorSensor.blue());
+            telemetry.addData("8 Alpha: ", robot.JewelColorSensor.alpha());
+            telemetry.addData("10 R: ", robot.FloorColorSensor.red());
+            telemetry.addData("20 G: ", robot.FloorColorSensor.green());
+            telemetry.addData("30 B: ", robot.FloorColorSensor.blue());
+            telemetry.addData("80 Alpha: ", robot.FloorColorSensor.alpha());
+            telemetry.addData("9 Distance", robot.sonicOne.cmUltrasonic());
             telemetry.update();
+
         }
     }
 

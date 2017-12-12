@@ -23,20 +23,20 @@ public void JewelSwatter (int allianceColor) throws InterruptedException {
         Thread.sleep(1000);
         robot.armServo.setPosition(robot.ARM_SERVO_DOWN);
         Thread.sleep(1000);
-        blueValue = robot.ColorSensor.blue();
-        redValue = robot.ColorSensor.red();
+        blueValue = robot.JewelColorSensor.blue();
+        redValue = robot.JewelColorSensor.red();
         robot.armServo.setPosition(robot.armServo.getPosition() - 0.01);
         Thread.sleep(500);
-        if (robot.ColorSensor.blue() > blueValue)
-        blueValue = robot.ColorSensor.blue();
-        if (robot.ColorSensor.red() > redValue)
-        redValue = robot.ColorSensor.red();
+        if (robot.JewelColorSensor.blue() > blueValue)
+        blueValue = robot.JewelColorSensor.blue();
+        if (robot.JewelColorSensor.red() > redValue)
+        redValue = robot.JewelColorSensor.red();
         robot.armServo.setPosition(robot.armServo.getPosition() - 0.01);
         Thread.sleep(500);
-        if (robot.ColorSensor.blue() > blueValue)
-        blueValue = robot.ColorSensor.blue();
-        if (robot.ColorSensor.red() > redValue)
-        redValue = robot.ColorSensor.red();
+        if (robot.JewelColorSensor.blue() > blueValue)
+        blueValue = robot.JewelColorSensor.blue();
+        if (robot.JewelColorSensor.red() > redValue)
+        redValue = robot.JewelColorSensor.red();
         if (allianceColor == robot.BLUE)
         {
         if (blueValue > redValue)

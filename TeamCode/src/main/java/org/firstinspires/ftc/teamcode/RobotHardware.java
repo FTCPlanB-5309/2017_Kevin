@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
@@ -41,10 +42,12 @@ public class RobotHardware {
     public Servo leftRelic = null;
     public Servo wristRelic = null;
     public Servo extensionRelic = null;
+    public Servo ExtensionReversed = null;
     /*
      * Define sensors
      */
-    public ColorSensor ColorSensor = null;
+    public ColorSensor JewelColorSensor = null;
+    public ColorSensor FloorColorSensor = null;
     public ModernRoboticsI2cGyro gyroSensor = null;
     public ModernRoboticsI2cRangeSensor sonicOne = null;
 
@@ -58,7 +61,8 @@ public class RobotHardware {
     final double JEWEL_SERVO_MIDDLE = 0.47;
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
-
+    final double PLATFORM_SPEED = 0.15;
+    final double MOVEMENT_INCREMENT =0.03;
     final int GLYPH_ARM_UP = 3100;
     final double RIGHT_CLAW_OPEN = 0.235;
     final double RIGHT_CLAW_CLOSED = 0.431;
@@ -72,11 +76,14 @@ public class RobotHardware {
     final double UPPER_LEFT_CLAW_OPEN = 0.667;
     final double UPPER_LEFT_CLAW_CLOSED = 0.451;
     final double UPPER_LEFT_CLAW_SOFT = 0.550;
-    final double RIGHT_RELIC_OPEN = 0.196;
-    final double RIGHT_RELIC_CLOSED = 0.333;
-
-    final double LEFT_RELIC_OPEN = 0.549;
-    final double LEFT_RELIC_CLOSED = 0.411;
+    final double RIGHT_RELIC_OPEN = 0;
+    final double RIGHT_RELIC_CLOSED = 0.15;
+    final double OPEN = 1;
+    final double CLOSE = 0;
+    final double SOFT = 2;
+    final double CENTER = 85;
+    final double LEFT_RELIC_OPEN = 0.75;
+    final double LEFT_RELIC_CLOSED = 0.55;
 
     final double INIT_RELIC_WRIST = 0.5;
 
@@ -109,6 +116,7 @@ public class RobotHardware {
         rightRelic = hwMap.servo.get("RR");
         wristRelic = hwMap.servo.get("WR");
         extensionRelic = hwMap.servo.get("ER");
+        ExtensionReversed = hwMap.servo.get("RE");
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
         rightWheel.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -124,8 +132,11 @@ public class RobotHardware {
         rightClaw = hwMap.servo.get("RC");
         upperLeftClaw = hwMap.servo.get("uRC");
         upperRightClaw = hwMap.servo.get("uLC");
-        ColorSensor = hwMap.colorSensor.get("colorSensor");
-        ColorSensor.enableLed(true);
+        JewelColorSensor = hwMap.colorSensor.get("colorSensor");
+        JewelColorSensor.setI2cAddress(I2cAddr.create8bit(0x10));
+        JewelColorSensor.enableLed(true);
+        FloorColorSensor = hwMap.colorSensor.get("floorcolorsensor");
+        FloorColorSensor.enableLed(true);
         gyroSensor = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
         sonicOne = hwMap.get(ModernRoboticsI2cRangeSensor.class, "S1");
         /*
@@ -141,6 +152,7 @@ public class RobotHardware {
         upperRightClaw.setPosition(UPPER_RIGHT_CLAW_OPEN);
         upperLeftClaw.setPosition(UPPER_LEFT_CLAW_OPEN);
         extensionRelic.setPosition(.5);
+        ExtensionReversed.setPosition(.5);
 
         /*
         Initializing gyro

@@ -5,10 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 @TeleOp(name = "Tele-op", group = "Robot")
 @SuppressWarnings("unused")
+
 public class Teleop extends OpMode {
     RobotHardware robot = new RobotHardware(telemetry);
     float getStickValue(float joy){
@@ -22,7 +21,8 @@ public class Teleop extends OpMode {
             return(0);
         }
     }
-
+    Relic relic = new Relic(robot, telemetry);
+    Glyph glyph = new Glyph(robot, telemetry);
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -45,50 +45,35 @@ public class Teleop extends OpMode {
         robot.relicArm.setPower(-gamepad2.left_stick_y);
 
        if (gamepad2.right_bumper) {
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
-           robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_OPEN);
-           robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_OPEN);
+            glyph.grabber(robot.OPEN);
         }
         else if (gamepad2.right_trigger > 0.4) {
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
-           robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_CLOSED);
-           robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_CLOSED);
+            glyph.grabber(robot.CLOSE);
         }
         if (gamepad2.right_stick_button){
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_SOFT);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_SOFT);
-            robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_SOFT);
-            robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_SOFT);
+           glyph.grabber(robot.SOFT);
         }
 
         if (gamepad2.left_bumper) {
-            robot.leftRelic.setPosition(robot.LEFT_RELIC_OPEN);
-            robot.rightRelic.setPosition(robot.RIGHT_RELIC_OPEN);
+            relic.claw(robot.OPEN);
         }
         else if (gamepad2.left_trigger > 0.4) {
-            robot.leftRelic.setPosition(robot.LEFT_RELIC_CLOSED);
-            robot.rightRelic.setPosition(robot.RIGHT_RELIC_CLOSED);
+            relic.claw(robot.CLOSE);
         }
 
         // handle extension arm
         if(gamepad2.dpad_up)
-            robot.extensionRelic.setPosition(1);
+            relic.extend(1);
         if(gamepad2.dpad_down)
-            robot.extensionRelic.setPosition(0);
+            relic.extend(0);
         if(!gamepad2.dpad_down && !gamepad2.dpad_up)
-            robot.extensionRelic.setPosition(0.5);
+            relic.extend(0.5);
 
         // handle wrist (open close rotate
         if(gamepad2.dpad_left)
-            robot.wristRelic.setPosition(robot.wristRelic.getPosition()-0.01);
-        if(robot.wristRelic.getPosition() < 0)
-            robot.wristRelic.setPosition(0);
+            relic.wrist(-0.01);
         if(gamepad2.dpad_right)
-            robot.wristRelic.setPosition(robot.wristRelic.getPosition()+0.01);
-        if(robot.wristRelic.getPosition() > 1)
-            robot.wristRelic.setPosition(1);
+            relic.wrist(0.01);
 
 
         if (gamepad1.a) {

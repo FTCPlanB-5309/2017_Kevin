@@ -18,8 +18,7 @@ public class ArmHandler {
         this.telemetry = telemetry;
     }
 
-public void armToPosition (int pos) throws InterruptedException {
-        robot.armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+public void armToPosition (int pos){
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotor.setTargetPosition(pos);
         robot.armMotor.setPower(0.5);
