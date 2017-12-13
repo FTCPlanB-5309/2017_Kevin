@@ -29,10 +29,10 @@ public class RobotHardware {
     public DcMotor rightWheel = null;
     public DcMotor centerWheel = null;
     public DcMotor armMotor = null;
+    public DcMotor jewelArmMotor = null;
     /*
      * Define Servos
      */
-    public Servo armServo = null;
     public Servo jewelServo = null;
     public Servo leftClaw = null;
     public Servo rightClaw = null;
@@ -112,6 +112,8 @@ public class RobotHardware {
         centerWheel = hwMap.dcMotor.get("CD");
         armMotor = hwMap.dcMotor.get("AD");
         relicArm = hwMap.dcMotor.get("RA");
+        jewelArmMotor = hwMap.dcMotor.get("jewelArmMotor");
+
         leftRelic = hwMap.servo.get("LR");
         rightRelic = hwMap.servo.get("RR");
         wristRelic = hwMap.servo.get("WR");
@@ -125,8 +127,9 @@ public class RobotHardware {
         leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        jewelArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        jewelArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        armServo = hwMap.servo.get("armServo");
         jewelServo = hwMap.servo.get("jewelServo");
         leftClaw = hwMap.servo.get("LC");
         rightClaw = hwMap.servo.get("RC");
@@ -142,7 +145,6 @@ public class RobotHardware {
         /*
          * Set initial servo positions
          */
-        armServo.setPosition(ARM_SERVO_UP);
         jewelServo.setPosition(JEWEL_SERVO_LEFT);
         leftClaw.setPosition(LEFT_CLAW_OPEN);
         rightClaw.setPosition(RIGHT_CLAW_OPEN);
