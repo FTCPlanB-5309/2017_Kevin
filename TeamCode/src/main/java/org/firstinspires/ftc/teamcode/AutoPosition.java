@@ -31,7 +31,7 @@ public class AutoPosition {
         robot.rightWheel.setPower(robot.PLATFORM_SPEED);
         int heading = robot.gyroSensor.getHeading();
         double offset = 0;
-        while(robot.sonicOne.cmUltrasonic() > in*2.54) {
+        while(robot.sonicOne.cmUltrasonic() > in * 2.54) {
             heading = robot.gyroSensor.getHeading();
             if (heading < 90) {
                 offset = robot.MOVEMENT_INCREMENT * heading;

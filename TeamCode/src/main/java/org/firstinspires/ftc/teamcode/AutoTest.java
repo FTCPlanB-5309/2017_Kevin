@@ -19,12 +19,12 @@ public class AutoTest extends LinearOpMode{
     //
     RobotHardware         robot   = new RobotHardware(telemetry);
     Jewel                 jewel   = new Jewel(robot, telemetry);
-//    Forward forward = new Forward(robot,telemetry);
-//    Slide slide = new Slide(robot, telemetry);
-//    Gyro gyro = new Gyro(robot, telemetry);
-//    SonicAlign sonicAlign = new SonicAlign(robot, telemetry, slide);
-//    ArmHandler armHandler = new ArmHandler(robot, telemetry);
-//    AutoPosition autoPosition = new AutoPosition(robot,telemetry);
+    Forward forward = new Forward(robot,telemetry);
+    Slide slide = new Slide(robot, telemetry);
+    Gyro gyro = new Gyro(robot, telemetry);
+    SonicAlign sonicAlign = new SonicAlign(robot, telemetry, slide);
+    ArmHandler armHandler = new ArmHandler(robot, telemetry);
+    AutoPosition autoPosition = new AutoPosition(robot,telemetry);
 
     public void runOpMode() throws InterruptedException {
         double distanceForward;
@@ -37,26 +37,26 @@ public class AutoTest extends LinearOpMode{
 
         jewel.JewelSwatter(robot.BLUE);
 
-//            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
-//            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
-//            Thread.sleep(250);
-//            armHandler.armToPosition(400);
-//
-//            if(!autoPosition.moveToWall(14)){
-//                while(opModeIsActive()){}
-//            }
-//
-//            autoPosition.center(robot.BLUE, robot.RIGHT);
-//
-//            gyro.turn(0);
-//
-//            while(robot.sonicOne.cmUltrasonic() > 3){
-//                robot.leftWheel.setPower(0.15);
-//                robot.rightWheel.setPower(0.15);
-//            }
-//            robot.leftWheel.setPower(0);
-//            robot.rightWheel.setPower(0);
-//
+            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
+            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
+            Thread.sleep(250);
+            armHandler.armToPosition(400);
+
+            if(!autoPosition.moveToWall(14)){
+                while(opModeIsActive()){}
+            }
+
+            autoPosition.center(robot.BLUE, robot.RIGHT);
+
+            gyro.turn(0);
+
+            while(robot.sonicOne.cmUltrasonic() > 8){
+                robot.leftWheel.setPower(0.15);
+                robot.rightWheel.setPower(0.15);
+            }
+            robot.leftWheel.setPower(0);
+            robot.rightWheel.setPower(0);
+
 //            //Grabbing the block and lifting it up
 //            autoPosition.prepareToMove();
 //
@@ -65,7 +65,7 @@ public class AutoTest extends LinearOpMode{
 //
 //            //Finding the edges of the triangles
 //            autoPosition.center(robot.BLUE);
-//
+
 //            forward.run(0.25, -3);
 //            robot.armMotor.setTargetPosition(0);
 //            robot.armMotor.setPower(0.25);
@@ -160,7 +160,6 @@ public class AutoTest extends LinearOpMode{
     //            telemetry.addData("Center wheel value: ", "%d", robot.centerWheel.getCurrentPosition());
     //            telemetry.update();
     //        }
-    //        //distance of 8
     //
     //
     //

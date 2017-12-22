@@ -76,14 +76,14 @@ public class RobotHardware {
     final double UPPER_LEFT_CLAW_OPEN = 0.667;
     final double UPPER_LEFT_CLAW_CLOSED = 0.451;
     final double UPPER_LEFT_CLAW_SOFT = 0.550;
-    final double RIGHT_RELIC_OPEN = 0;
-    final double RIGHT_RELIC_CLOSED = 0.15;
+    final double RIGHT_RELIC_OPEN = 0.55;
+    final double RIGHT_RELIC_CLOSED = 0.313;
     final double OPEN = 1;
     final double CLOSE = 0;
     final double SOFT = 2;
     final double CENTER = 85;
-    final double LEFT_RELIC_OPEN = 0.75;
-    final double LEFT_RELIC_CLOSED = 0.55;
+    final double LEFT_RELIC_OPEN = 0.27;
+    final double LEFT_RELIC_CLOSED = 0.45;
 
     final double INIT_RELIC_WRIST = 0.5;
 
@@ -119,8 +119,8 @@ public class RobotHardware {
         wristRelic = hwMap.servo.get("WR");
         extensionRelic = hwMap.servo.get("ER");
         ExtensionReversed = hwMap.servo.get("RE");
-        leftWheel.setDirection(DcMotor.Direction.REVERSE);
-        rightWheel.setDirection(DcMotor.Direction.FORWARD);
+        leftWheel.setDirection(DcMotor.Direction.FORWARD);
+        rightWheel.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         relicArm.setDirection(DcMotor.Direction.REVERSE);
