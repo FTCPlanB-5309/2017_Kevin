@@ -107,11 +107,11 @@ public class RobotHardware {
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        leftWheel = hwMap.dcMotor.get("LD");
-        rightWheel = hwMap.dcMotor.get("RD");
-        centerWheel = hwMap.dcMotor.get("CD");
-        armMotor = hwMap.dcMotor.get("AD");
-        relicArm = hwMap.dcMotor.get("RA");
+        leftWheel = hwMap.dcMotor.get("leftDrive");
+        rightWheel = hwMap.dcMotor.get("rightDrive");
+        centerWheel = hwMap.dcMotor.get("centerDrive");
+        armMotor = hwMap.dcMotor.get("glyphArmMotor");
+        relicArm = hwMap.dcMotor.get("relicArmMotor");
         jewelArmMotor = hwMap.dcMotor.get("jewelArmMotor");
 
         leftRelic = hwMap.servo.get("LR");
