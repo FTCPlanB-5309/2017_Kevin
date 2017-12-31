@@ -44,7 +44,7 @@ public class BlueLeftAutonomous extends LinearOpMode {
         glyph.grabber(robot.CLOSE);
         armHandler.armToPosition(400);
         gyroForward.sonic(14);
-        colorSensorSlide.findColumn(robot.BLUE, RelicRecoveryVuMark.RIGHT, robot.RIGHT);
+        colorSensorSlide.findColumn(robot.BLUE, column, robot.RIGHT);
         gyro.turn(0);
         forward.run(0.25, 8);
         glyph.grabber(robot.SOFT);
