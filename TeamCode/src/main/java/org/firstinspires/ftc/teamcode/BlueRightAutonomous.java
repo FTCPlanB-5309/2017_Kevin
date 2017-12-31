@@ -43,7 +43,7 @@ public class BlueRightAutonomous extends LinearOpMode {
         column = conceptVuMarkId.findColumn(5000);
         glyph.grabber(robot.CLOSE);
         armHandler.armToPosition(400);
-        gyroForward.distance(18);
+        gyroForward.distance(30);
         slide.run(0.5, 3, robot.RIGHT);
         gyro.turn(90);
         gyroForward.sonic(14);
