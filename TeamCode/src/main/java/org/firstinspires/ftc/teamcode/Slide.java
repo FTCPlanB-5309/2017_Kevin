@@ -17,10 +17,10 @@ public class Slide {
             direction = 1;
         else
             direction = -1;
-        robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Thread.sleep(250);
+        robot.centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int target = (int) (distance * robot.COUNTS_PER_INCH)*direction;
         robot.centerWheel.setTargetPosition(target);
+        robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.centerWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.centerWheel.setPower(speed*direction);
         while (robot.centerWheel.isBusy()) {

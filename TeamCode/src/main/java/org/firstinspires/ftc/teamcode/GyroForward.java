@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.util.Range;
 
         import org.firstinspires.ftc.robotcore.external.Telemetry;
+        import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * Created by user on 12/28/2017.
@@ -18,7 +19,7 @@ public class GyroForward {
         this.telemetry = telemetry;
     }
 
-    public boolean sonic (double inches) {
+    public boolean sonic (double inches, int desiredHeading) {
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -27,23 +28,38 @@ public class GyroForward {
         robot.rightWheel.setPower(robot.PLATFORM_SPEED);
         int heading = robot.gyroSensor.getHeading();
         double offset = 0;
-        while(robot.sonicOne.cmUltrasonic() > inches * 2.54) {
+        while(robot.sonicOne.getDistance(DistanceUnit.INCH) > inches){
             heading = robot.gyroSensor.getHeading();
-            if (heading < 90) {
-                offset = robot.MOVEMENT_INCREMENT * heading;
-                robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
-                robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
-            } else if (heading > 270) {
-                offset = robot.MOVEMENT_INCREMENT * (360 - heading);
-                robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
-                robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
-            } else {
-                return false;
+            if(desiredHeading == 0) {
+                if (heading < 90) {
+                    offset = robot.MOVEMENT_INCREMENT * heading;
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                } else if (heading > 270) {
+                    offset = robot.MOVEMENT_INCREMENT * (360 - heading);
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                } else {
+                    return false;
+                }
+            }
+            else {
+                offset = robot.MOVEMENT_INCREMENT * Math.abs((desiredHeading - heading));
+                if (heading < desiredHeading) {
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                } else if (heading > desiredHeading) {
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                } else {
+                    return false;
+                }
             }
             telemetry.addData("offset", offset);
             telemetry.addData("heading", heading);
             telemetry.addData("left", robot.leftWheel.getPower());
             telemetry.addData("right", robot.rightWheel.getPower());
+            telemetry.addData("sonic", robot.sonicOne.cmUltrasonic() / 2.54);
             telemetry.update();
         }
         robot.leftWheel.setPower(0);
@@ -53,7 +69,7 @@ public class GyroForward {
 
         return true;
     }
-    public boolean distance (double inches) {
+    public boolean distance (double inches, int desiredHeading) {
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -62,18 +78,32 @@ public class GyroForward {
         robot.rightWheel.setPower(robot.PLATFORM_SPEED);
         int heading = robot.gyroSensor.getHeading();
         double offset = 0;
-        while(robot.leftWheel.getCurrentPosition() > inches * robot.COUNTS_PER_INCH) {
+        while(robot.leftWheel.getCurrentPosition() > (inches * robot.COUNTS_PER_INCH)) {
             heading = robot.gyroSensor.getHeading();
-            if (heading < 90) {
-                offset = robot.MOVEMENT_INCREMENT * heading;
-                robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
-                robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
-            } else if (heading > 270) {
-                offset = robot.MOVEMENT_INCREMENT * (360 - heading);
-                robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
-                robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
-            } else {
-                return false;
+            if(desiredHeading == 0) {
+                if (heading < 90) {
+                    offset = robot.MOVEMENT_INCREMENT * heading;
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                } else if (heading > 270) {
+                    offset = robot.MOVEMENT_INCREMENT * (360 - heading);
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                } else {
+                    return false;
+                }
+            }
+            else {
+                offset = robot.MOVEMENT_INCREMENT * Math.abs((desiredHeading - heading));
+                if (heading < desiredHeading) {
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                } else if (heading > desiredHeading) {
+                    robot.leftWheel.setPower(Range.clip(robot.PLATFORM_SPEED + offset, 0, 0.3));
+                    robot.rightWheel.setPower(Range.clip(robot.PLATFORM_SPEED - offset, 0, 0.3));
+                } else {
+                    return false;
+                }
             }
             telemetry.addData("offset", offset);
             telemetry.addData("heading", heading);
