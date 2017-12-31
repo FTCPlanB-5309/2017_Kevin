@@ -14,7 +14,8 @@ public class RedLeftAutonomous extends LinearOpMode {
     //
     RobotHardware         robot   = new RobotHardware(telemetry);
     Jewel                 jewel   = new Jewel(robot, telemetry);
-    Forward forward = new Forward(robot,telemetry);
+    Forward forward = new Forward(robot, telemetry);
+    Backward backward = new Backward(robot, telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
     ArmHandler armHandler = new ArmHandler(robot, telemetry);
     ColorSensorSlide colorSensorSlide = new ColorSensorSlide(robot, telemetry);
@@ -37,7 +38,7 @@ public class RedLeftAutonomous extends LinearOpMode {
         armHandler.armToPosition(400);
 
 //        gyroForward.distance(-30);
-        forward.run(0.25, -30);
+        backward.run(0.25, 42);
         slide.run(0.25, 3, robot.RIGHT);
         gyro.turn(90);
         gyroForward.sonic(14);
@@ -45,7 +46,7 @@ public class RedLeftAutonomous extends LinearOpMode {
         gyro.turn(90);
         forward.run(0.25, 8);
         glyph.grabber(robot.SOFT);
-        forward.run(0.25, -8);
+        backward.run(0.25, 8);
 
         armHandler.armToPosition(0);
         glyph.grabber(robot.OPEN);
