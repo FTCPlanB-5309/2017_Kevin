@@ -48,6 +48,9 @@ public class GyroForward {
         }
         robot.leftWheel.setPower(0);
         robot.rightWheel.setPower(0);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         return true;
     }
     public boolean distance (double inches) {

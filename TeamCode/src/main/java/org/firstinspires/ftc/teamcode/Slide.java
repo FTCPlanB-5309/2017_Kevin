@@ -27,7 +27,10 @@ public class Slide {
             Thread.yield();
         }
 
+        robot.centerWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.centerWheel.setPower(0);
+        Thread.sleep(250);
     }
 }
 

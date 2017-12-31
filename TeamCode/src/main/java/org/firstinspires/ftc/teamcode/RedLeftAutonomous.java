@@ -35,18 +35,19 @@ public class RedLeftAutonomous extends LinearOpMode {
         jewel.JewelSwatter(robot.RED);
         column = conceptVuMarkId.findColumn(5000);
         glyph.grabber(robot.CLOSE);
-        armHandler.armToPosition(400);
+        armHandler.armToPosition(500);
 
 //        gyroForward.distance(-30);
-        backward.run(0.25, 42);
-        slide.run(0.25, 3, robot.RIGHT);
+        backward.run(0.25, 44);
+        slide.run(0.25, 2, robot.RIGHT);
         gyro.turn(90);
-        gyroForward.sonic(14);
-        colorSensorSlide.findColumn(robot.RED, column, robot.LEFT);
-        gyro.turn(90);
-        forward.run(0.25, 8);
-        glyph.grabber(robot.SOFT);
-        backward.run(0.25, 8);
+//        gyroForward.sonic(14);
+        forward.run(0.25, 2);
+        colorSensorSlide.findColumn(robot.RED, column, robot.RIGHT);
+//        gyro.turn(90);
+//        forward.run(0.25, 8);
+//        glyph.grabber(robot.SOFT);
+//        backward.run(0.25, 8);
 
         armHandler.armToPosition(0);
         glyph.grabber(robot.OPEN);
