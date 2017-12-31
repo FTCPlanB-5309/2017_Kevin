@@ -25,18 +25,22 @@ public class BlueLeftAutonomous extends LinearOpMode {
     Jewel                 jewel   = new Jewel(robot, telemetry);
     Forward forward = new Forward(robot,telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
-//    SonicAlign sonicAlign = new SonicAlign(robot, telemetry, slide);
     ArmHandler armHandler = new ArmHandler(robot, telemetry);
-//    AutoPosition autoPosition = new AutoPosition(robot,telemetry);
     ColorSensorSlide colorSensorSlide = new ColorSensorSlide(robot, telemetry);
     Glyph glyph = new Glyph(robot, telemetry);
     GyroForward gyroForward = new GyroForward(robot, telemetry);
+    ConceptVuMarkId conceptVuMarkId = null;
 
     public void runOpMode() throws InterruptedException {
         double distanceForward;
         robot.init(hardwareMap);
+        conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
+        RelicRecoveryVuMark column = null;
+
         waitForStart();
+        robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.BLUE);
+        column = conceptVuMarkId.findColumn(5000);
         glyph.grabber(robot.CLOSE);
         armHandler.armToPosition(400);
         gyroForward.sonic(14);
@@ -45,6 +49,9 @@ public class BlueLeftAutonomous extends LinearOpMode {
         forward.run(0.25, 8);
         glyph.grabber(robot.SOFT);
         forward.run(0.25, -8);
+
+        armHandler.armToPosition(0);
+        glyph.grabber(robot.OPEN);
 
     }
 
