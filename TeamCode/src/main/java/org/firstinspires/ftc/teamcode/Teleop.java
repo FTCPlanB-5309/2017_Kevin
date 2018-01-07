@@ -45,13 +45,13 @@ public class Teleop extends OpMode {
         robot.relicArm.setPower(-gamepad2.left_stick_y);
 
        if (gamepad2.right_bumper) {
-            glyph.grabber(robot.OPEN);
+            glyph.open();
         }
         else if (gamepad2.right_trigger > 0.4) {
-            glyph.grabber(robot.CLOSE);
+            glyph.close();
         }
-        if (gamepad2.right_stick_button){
-           glyph.grabber(robot.SOFT);
+        else if (gamepad2.right_stick_button){
+           glyph.soft();
         }
 
         if (gamepad2.left_bumper) {

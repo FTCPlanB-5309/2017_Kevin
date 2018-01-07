@@ -16,24 +16,22 @@ public class Glyph {
         this.telemetry = telemetry;
     }
 
-    public void grabber(double pos){
-        if (pos == robot.OPEN){
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
-            robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_OPEN);
-            robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_OPEN);
-        }
-        if (pos == robot.CLOSE){
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
-            robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_CLOSED);
-            robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_CLOSED);
-        }
-        if (pos == robot.SOFT){
-            robot.leftClaw.setPosition(robot.LEFT_CLAW_SOFT);
-            robot.rightClaw.setPosition(robot.RIGHT_CLAW_SOFT);
-            robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_SOFT);
-            robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_SOFT);
-        }
+    public void open() {
+        robot.leftClaw.setPosition(robot.LEFT_CLAW_OPEN);
+        robot.rightClaw.setPosition(robot.RIGHT_CLAW_OPEN);
+        robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_OPEN);
+        robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_OPEN);
+    }
+    public void close() {
+        robot.leftClaw.setPosition(robot.LEFT_CLAW_CLOSED);
+        robot.rightClaw.setPosition(robot.RIGHT_CLAW_CLOSED);
+        robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_CLOSED);
+        robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_CLOSED);
+    }
+    public void soft() {
+        robot.leftClaw.setPosition(robot.LEFT_CLAW_SOFT);
+        robot.rightClaw.setPosition(robot.RIGHT_CLAW_SOFT);
+        robot.upperLeftClaw.setPosition(robot.UPPER_LEFT_CLAW_SOFT);
+        robot.upperRightClaw.setPosition(robot.UPPER_RIGHT_CLAW_SOFT);
     }
 }
