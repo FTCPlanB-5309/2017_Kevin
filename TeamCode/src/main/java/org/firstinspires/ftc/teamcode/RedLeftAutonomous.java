@@ -33,7 +33,7 @@ public class RedLeftAutonomous extends LinearOpMode {
         robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.RED);
         column = conceptVuMarkId.findColumn(3000);
-        glyph.grabber(robot.CLOSE);
+        glyph.close();
         armHandler.armToPosition(500);
 //        gyroForward.distance(-30, );
         backward.run(0.4, 44);
@@ -44,11 +44,11 @@ public class RedLeftAutonomous extends LinearOpMode {
         colorSensorSlide.findColumn(robot.RED, column, robot.RIGHT);
         gyro.turn(90);
         forward.run(0.25, 8);
-        glyph.grabber(robot.SOFT);
+        glyph.soft();
         backward.run(0.25, 8);
 
         armHandler.armToPosition(0);
-        glyph.grabber(robot.OPEN);
+        glyph.open();
         sleep(15000);
     }
 }
