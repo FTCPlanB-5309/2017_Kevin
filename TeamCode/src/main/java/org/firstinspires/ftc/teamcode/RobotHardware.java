@@ -69,7 +69,7 @@ public class RobotHardware {
     final double RIGHT_CLAW_SOFT = 0.283;
     final double RIGHT_CLAW_INIT = 0.19;
     final double LEFT_CLAW_OPEN = 0.627;
-    final double LEFT_CLAW_CLOSED = 0.5;
+    final double LEFT_CLAW_CLOSED = 0.38;
     final double LEFT_CLAW_SOFT =0.58;
     final double LEFT_CLAW_INIT = 0.7;
     final double UPPER_RIGHT_CLAW_OPEN = 0.471;
@@ -101,7 +101,7 @@ public class RobotHardware {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     public final int BLUE = 0;
     public final int RED = 1;
-    public final float DEADZONE = 0.1f;
+    public final float DEADZONE = 0.15f;
     Telemetry telemetry;
 
     public RobotHardware(Telemetry telemetry){

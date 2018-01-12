@@ -37,7 +37,7 @@ public class Jewel {
         Thread.sleep(250);
         blueValue = robot.JewelColorSensor.blue();
         redValue = robot.JewelColorSensor.red();
-        moveArm(350);
+        moveArm(335);
         Thread.sleep(250);
         if (robot.JewelColorSensor.blue() > blueValue)
             blueValue = robot.JewelColorSensor.blue();
