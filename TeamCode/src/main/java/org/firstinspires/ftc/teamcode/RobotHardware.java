@@ -50,9 +50,19 @@ public class RobotHardware {
     public ColorSensor FloorColorSensor = null;
     public ModernRoboticsI2cGyro gyroSensor = null;
     public ModernRoboticsI2cRangeSensor sonicOne = null;
+    public ModernRoboticsI2cRangeSensor sonicTwo = null;
 
     HardwareMap hwMap = null;
     private ElapsedTime runtime = new ElapsedTime();
+
+    int[] leftArray = new int[] {0, 15, 15, 15, 15};
+    int[] centerArray = new int[] {0, 7, 7, 7, 7};
+    int[] rightArray = new int[] {0, 2, 2, 2, 2};
+
+
+
+
+
     /*
      * Define Servo Constants
      */
@@ -147,6 +157,8 @@ public class RobotHardware {
         FloorColorSensor.enableLed(true);
         gyroSensor = hwMap.get(ModernRoboticsI2cGyro.class, "gyro");
         sonicOne = hwMap.get(ModernRoboticsI2cRangeSensor.class, "S1");
+        sonicTwo = hwMap.get(ModernRoboticsI2cRangeSensor.class, "S2");
+        sonicTwo.setI2cAddress(I2cAddr.create8bit(0x2a));
         /*
          * Set initial servo positions
          */

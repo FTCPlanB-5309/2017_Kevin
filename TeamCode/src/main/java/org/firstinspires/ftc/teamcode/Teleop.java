@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Teleop extends OpMode {
     RobotHardware robot = new RobotHardware(telemetry);
+    Jewel jewel = new Jewel(robot, telemetry);
     float getStickValue(float joy){
         if(-joy < -robot.DEADZONE){
             return ((-joy+robot.DEADZONE)/(1-robot.DEADZONE));
@@ -31,15 +32,26 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         updateTelemetry(telemetry);
-        robot.jewelArmMotor.setPower(0.05);
+        jewel.moveArm(0);
+        int ad = 0;
+        boolean toggle = false;
+        if(gamepad1.start && !toggle){
+            ad = 2;
+            toggle = true;
+
+        }
+        else if(gamepad1.start && toggle){
+            ad = 0;
+            toggle = false;
+        }
 
         float lx=getStickValue(gamepad1.left_stick_x);
-        robot.centerWheel.setPower(lx);
+        robot.centerWheel.setPower(lx / ad);
 
         float ly=getStickValue(gamepad1.left_stick_y);
         float rx=getStickValue(gamepad1.right_stick_x);
-        robot.leftWheel.setPower(ly - rx);
-        robot.rightWheel.setPower(ly + rx);
+        robot.leftWheel.setPower((ly - rx) / ad);
+        robot.rightWheel.setPower((ly + rx) / ad);
 
         //
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);
