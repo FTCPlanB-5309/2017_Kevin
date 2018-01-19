@@ -33,25 +33,34 @@ public class Teleop extends OpMode {
     public void loop() {
         updateTelemetry(telemetry);
         jewel.moveArm(0);
-        int ad = 0;
-        boolean toggle = false;
-        if(gamepad1.start && !toggle){
-            ad = 2;
-            toggle = true;
-
-        }
-        else if(gamepad1.start && toggle){
-            ad = 0;
-            toggle = false;
-        }
 
         float lx=getStickValue(gamepad1.left_stick_x);
-        robot.centerWheel.setPower(lx / ad);
+        robot.centerWheel.setPower(lx);
 
         float ly=getStickValue(gamepad1.left_stick_y);
         float rx=getStickValue(gamepad1.right_stick_x);
-        robot.leftWheel.setPower((ly - rx) / ad);
-        robot.rightWheel.setPower((ly + rx) / ad);
+        if (!gamepad1.a) {
+            robot.leftWheel.setPower(ly - rx);
+            robot.rightWheel.setPower(ly + rx);
+        }
+        else{
+            if (gamepad1.dpad_up){
+                robot.leftWheel.setPower(0.5);
+                robot.rightWheel.setPower(0.5);
+            }
+            else if (gamepad1.dpad_down){
+                robot.leftWheel.setPower(-0.5);
+                robot.rightWheel.setPower(-0.5);
+            }
+            else if (gamepad1.dpad_left){
+                robot.leftWheel.setPower(-0.5);
+                robot.rightWheel.setPower(0.5);
+            }
+            else if (gamepad1.dpad_right){
+                robot.leftWheel.setPower(0.5);
+                robot.rightWheel.setPower(-0.5);
+            }
+        }
 
         //
         robot.armMotor.setPower(-gamepad2.right_stick_y/2);

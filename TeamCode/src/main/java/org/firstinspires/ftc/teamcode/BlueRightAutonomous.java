@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+        import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+        import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+        import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 
 
@@ -50,7 +50,7 @@ public class BlueRightAutonomous extends LinearOpMode {
         sleep(100);
         slide.run(0.5,3,robot.LEFT);
         gyroForward.sonic(15, 0);
-        colorSensorSlide.findColumn(robot.BLUE, column, robot.RIGHT);
+        colorSensorSlide.findColumn(3, column, robot.RIGHT);
         forward.run(0.25, 8);
         glyph.open();
         forward.run(0.25, -8);
