@@ -35,20 +35,20 @@ public class RedLeftAutonomous extends LinearOpMode {
         column = conceptVuMarkId.findColumn(3000);
         glyph.close();
         armHandler.armToPosition(500);
-//        gyroForward.distance(-30, );
-        backward.run(0.4, 44);
-        slide.run(0.25, 2, robot.RIGHT);
-        gyro.turn(90);
-//        gyroForward.sonic(14, 90);
-        forward.run(0.25, 2);
-        colorSensorSlide.findColumn(robot.RED, column, robot.RIGHT);
-        gyro.turn(90);
-        forward.run(0.25, 8);
-        glyph.soft();
-        forward.run(0.25, -8);
 
+        if (column == RelicRecoveryVuMark.RIGHT) {
+            backward.run(0.25, 40);
+        }
+        else if (column == RelicRecoveryVuMark.CENTER) {
+            backward.run(0.25, 49);
+        }
+        else if (column == RelicRecoveryVuMark.LEFT) {
+            backward.run(0.25, 54);
+        }
+        gyro.turn(45);
+        forward.run(0.25, 11);
+        glyph.soft();
+        backward.run(0.25, 6);
         armHandler.armToPosition(0);
-        glyph.open();
-        sleep(15000);
     }
 }
