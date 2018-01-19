@@ -31,6 +31,7 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         updateTelemetry(telemetry);
+        robot.jewelArmMotor.setPower(0.05);
 
         float lx=getStickValue(gamepad1.left_stick_x);
         robot.centerWheel.setPower(lx);

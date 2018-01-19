@@ -45,7 +45,7 @@ public class RedLeftAutonomous extends LinearOpMode {
         gyro.turn(90);
         forward.run(0.25, 8);
         glyph.soft();
-        backward.run(0.25, 8);
+        forward.run(0.25, -8);
 
         armHandler.armToPosition(0);
         glyph.open();

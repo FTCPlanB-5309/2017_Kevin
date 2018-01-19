@@ -40,7 +40,7 @@ public class BlueLeftAutonomous extends LinearOpMode {
         waitForStart();
         robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.BLUE);
-        column = conceptVuMarkId.findColumn(5000);
+        column = conceptVuMarkId.findColumn(3000);
         glyph.close();
         armHandler.armToPosition(400);
         gyroForward.sonic(14, 0);

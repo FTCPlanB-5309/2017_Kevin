@@ -66,7 +66,7 @@ public class RobotHardware {
     final int GLYPH_ARM_UP = 3100;
     final double RIGHT_CLAW_OPEN = 0.235;
     final double RIGHT_CLAW_CLOSED = 0.431;
-    final double RIGHT_CLAW_SOFT = 0.283;
+    final double RIGHT_CLAW_SOFT = 0.33;
     final double RIGHT_CLAW_INIT = 0.19;
     final double LEFT_CLAW_OPEN = 0.627;
     final double LEFT_CLAW_CLOSED = 0.38;
@@ -100,6 +100,7 @@ public class RobotHardware {
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     public final int BLUE = 0;
+
     public final int RED = 1;
     public final float DEADZONE = 0.15f;
     Telemetry telemetry;
