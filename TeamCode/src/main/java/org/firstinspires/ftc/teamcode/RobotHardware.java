@@ -60,9 +60,6 @@ public class RobotHardware {
     int[] rightArray = new int[] {0, 2, 2, 2, 2};
 
 
-
-
-
     /*
      * Define Servo Constants
      */
@@ -178,7 +175,45 @@ public class RobotHardware {
          */
         gyroSensor.calibrate();
     }
+    public void initTeleop(HardwareMap ahwMap) {
+        hwMap = ahwMap;
 
+        leftWheel = hwMap.dcMotor.get("leftDrive");
+        rightWheel = hwMap.dcMotor.get("rightDrive");
+        centerWheel = hwMap.dcMotor.get("centerDrive");
+        armMotor = hwMap.dcMotor.get("glyphArmMotor");
+        relicArm = hwMap.dcMotor.get("relicArmMotor");
+        jewelArmMotor = hwMap.dcMotor.get("jewelArmMotor");
+
+        leftRelic = hwMap.servo.get("LR");
+        rightRelic = hwMap.servo.get("RR");
+        wristRelic = hwMap.servo.get("WR");
+        extensionRelic = hwMap.servo.get("ER");
+        ExtensionReversed = hwMap.servo.get("RE");
+        leftWheel.setDirection(DcMotor.Direction.FORWARD);
+        rightWheel.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        relicArm.setDirection(DcMotor.Direction.REVERSE);
+        leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        jewelArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        jewelArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        jewelServo = hwMap.servo.get("jewelServo");
+        leftClaw = hwMap.servo.get("LC");
+        rightClaw = hwMap.servo.get("RC");
+        upperLeftClaw = hwMap.servo.get("uRC");
+        upperRightClaw = hwMap.servo.get("uLC");
+
+
+        leftRelic.setPosition(LEFT_RELIC_CLOSED);
+        rightRelic.setPosition(RIGHT_RELIC_CLOSED);
+        wristRelic.setPosition(INIT_RELIC_WRIST);
+        extensionRelic.setPosition(0.5);
+        ExtensionReversed.setPosition(0.5);
+    }
 
     public void rightDrive(double power) {
         rightWheel.setPower(power);

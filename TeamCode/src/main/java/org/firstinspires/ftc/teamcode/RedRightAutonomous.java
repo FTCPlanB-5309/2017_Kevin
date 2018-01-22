@@ -43,7 +43,10 @@ public class RedRightAutonomous extends LinearOpMode {
 //        forward.run(0.25, 10);
 //        gyro.turn(180);
 //        slide.run(0.25, 2, robot.RIGHT);
-        colorSensorSlide.findColumn(1, column, robot.LEFT);
+        colorSensorSlide.findColumn( (int)(16.5 * robot.COUNTS_PER_INCH),
+                (int) (7* robot.COUNTS_PER_INCH),
+                (int) (2*robot.COUNTS_PER_INCH),
+                column, robot.RIGHT);
         gyro.turn(180);
         forward.run(0.25, 8);
         glyph.soft();

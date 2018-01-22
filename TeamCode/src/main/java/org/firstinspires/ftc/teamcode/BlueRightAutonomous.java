@@ -43,14 +43,18 @@ public class BlueRightAutonomous extends LinearOpMode {
         column = conceptVuMarkId.findColumn(5000);
         glyph.close();
         armHandler.armToPosition(400);
-        forward.run(0.25, 30);
+        forward.run(0.35, 30);
         slide.run(0.5, 3, robot.RIGHT);
         gyro.turn(90);
         robot.gyroSensor.resetZAxisIntegrator();
         sleep(100);
         slide.run(0.5,3,robot.LEFT);
         gyroForward.sonic(15, 0);
-        colorSensorSlide.findColumn(3, column, robot.RIGHT);
+        colorSensorSlide.findColumn( (int)(16.5 * robot.COUNTS_PER_INCH),
+                (int) (7* robot.COUNTS_PER_INCH),
+                (int) (1*robot.COUNTS_PER_INCH),
+                column, robot.RIGHT);
+        gyro.turn(0);
         forward.run(0.25, 8);
         glyph.open();
         forward.run(0.25, -8);
