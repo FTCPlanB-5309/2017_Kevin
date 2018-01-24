@@ -16,7 +16,7 @@ public class Backward {
     public void run(double speed, int distance) throws InterruptedException{
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Thread.sleep(250);
+//        Thread.sleep(250);
         int target = (int) (distance * robot.COUNTS_PER_INCH);
         robot.leftWheel.setTargetPosition(-target);
         robot.rightWheel.setTargetPosition(-target);
@@ -27,6 +27,10 @@ public class Backward {
         robot.rightWheel.setPower(speed);
         // keep looping while we are still active, and there is time left, and both motors are running.
         while (robot.leftWheel.isBusy() && robot.rightWheel.isBusy()) {
+            telemetry.addData("left:  ", robot.leftWheel.getCurrentPosition());
+            telemetry.addData("right: ", robot.rightWheel.getCurrentPosition());
+            telemetry.update();
+
             // Allow time for other processes to run.
             Thread.yield();
         }
