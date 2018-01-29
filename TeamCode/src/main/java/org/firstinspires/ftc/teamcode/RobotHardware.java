@@ -60,6 +60,9 @@ public class RobotHardware {
     int[] rightArray = new int[] {0, 2, 2, 2, 2};
 
 
+
+
+
     /*
      * Define Servo Constants
      */
@@ -131,8 +134,8 @@ public class RobotHardware {
         wristRelic = hwMap.servo.get("WR");
         extensionRelic = hwMap.servo.get("ER");
         ExtensionReversed = hwMap.servo.get("RE");
-        leftWheel.setDirection(DcMotor.Direction.FORWARD);
-        rightWheel.setDirection(DcMotor.Direction.REVERSE);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         relicArm.setDirection(DcMotor.Direction.REVERSE);
@@ -190,8 +193,8 @@ public class RobotHardware {
         wristRelic = hwMap.servo.get("WR");
         extensionRelic = hwMap.servo.get("ER");
         ExtensionReversed = hwMap.servo.get("RE");
-        leftWheel.setDirection(DcMotor.Direction.FORWARD);
-        rightWheel.setDirection(DcMotor.Direction.REVERSE);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.FORWARD);
         armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         relicArm.setDirection(DcMotor.Direction.REVERSE);

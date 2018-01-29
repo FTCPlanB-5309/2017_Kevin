@@ -18,42 +18,38 @@ public class RedRightAutonomous extends LinearOpMode {
     Backward backward = new Backward(robot, telemetry);
     Gyro gyro = new Gyro(robot, telemetry);
     ArmHandler armHandler = new ArmHandler(robot, telemetry);
-    ColorSensorSlide colorSensorSlide = new ColorSensorSlide(robot, telemetry);
     Glyph glyph = new Glyph(robot, telemetry);
-    GyroForward gyroForward = new GyroForward(robot, telemetry);
-    Slide slide = new Slide(robot, telemetry);
     ConceptVuMarkId conceptVuMarkId = null;
+    ColorSensorBackward colorSensorBackward = new ColorSensorBackward(robot, telemetry);
 
     public void runOpMode() throws InterruptedException {
-        double distanceForward;
         robot.init(hardwareMap);
         conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
-        RelicRecoveryVuMark column = RelicRecoveryVuMark.CENTER;
-
         waitForStart();
         robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.RED);
-        column = conceptVuMarkId.findColumn(3000);
+        RelicRecoveryVuMark column = conceptVuMarkId.findColumn(3000);
         glyph.close();
-        armHandler.armToPosition(2800);
-        forward.run(0.35, -22);
-        slide.run(0.35, 3, robot.LEFT);
-        gyro.turn(180);
-        armHandler.armToPosition(400);
-//        forward.run(0.25, 10);
-//        gyro.turn(180);
-//        slide.run(0.25, 2, robot.RIGHT);
-        colorSensorSlide.findColumn( (int)(16.5 * robot.COUNTS_PER_INCH),
-                (int) (7* robot.COUNTS_PER_INCH),
-                (int) (2*robot.COUNTS_PER_INCH),
-                column, robot.RIGHT);
-        gyro.turn(180);
-        forward.run(0.25, 8);
+        armHandler.armToPosition(800);
+        backward.run(0.35, 26);
+        gyro.turn(90);
+        telemetry.update();
+        robot.gyroSensor.resetZAxisIntegrator();
+        robot.armMotor.setPower(-1);
+        sleep(1000);
+        robot.armMotor.setPower(0);
+        colorSensorBackward.findColumn((int)(8 * robot.COUNTS_PER_INCH), (int)(7 * robot.COUNTS_PER_INCH),
+                (int)(9* robot.COUNTS_PER_INCH), column);
+        if (column == RelicRecoveryVuMark.LEFT)
+            gyro.turn(50);
+        else if (column == RelicRecoveryVuMark.CENTER)
+            gyro.turn(45);
+        else
+            gyro.turn(45);
+        forward.run(0.25, 3);
         glyph.soft();
-        forward.run(0.25, -8);
-
+        backward.run(0.25, 3);
         armHandler.armToPosition(0);
         glyph.open();
-
     }
 }
