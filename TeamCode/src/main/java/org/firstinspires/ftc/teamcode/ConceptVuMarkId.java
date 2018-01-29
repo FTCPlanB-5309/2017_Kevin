@@ -50,7 +50,7 @@ public class ConceptVuMarkId {
         /*
          * Setting the camera to the front camera which is facing away from the robot
          */
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         /**

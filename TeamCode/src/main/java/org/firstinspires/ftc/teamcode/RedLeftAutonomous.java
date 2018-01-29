@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import com.vuforia.CameraDevice;
+
 
 
 @Autonomous(name = "Left Red Autonomous", group = "Red")
@@ -24,28 +26,35 @@ public class RedLeftAutonomous extends LinearOpMode {
     Slide slide = new Slide(robot, telemetry);
     ConceptVuMarkId conceptVuMarkId = null;
 
+
     public void runOpMode() throws InterruptedException {
         double distanceForward;
         robot.init(hardwareMap);
         conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
         RelicRecoveryVuMark column = null;
         waitForStart();
+
+        CameraDevice.getInstance().setFlashTorchMode(true);
+
         robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.RED);
-        column = conceptVuMarkId.findColumn(3000);
+        column = conceptVuMarkId.findColumn(4000);
         glyph.close();
         armHandler.armToPosition(500);
 
         if (column == RelicRecoveryVuMark.RIGHT) {
             backward.run(0.25, 40);
+            gyro.turn(45);
         }
         else if (column == RelicRecoveryVuMark.CENTER) {
             backward.run(0.25, 49);
+            gyro.turn(50);
         }
         else if (column == RelicRecoveryVuMark.LEFT) {
-            backward.run(0.25, 54);
+            backward.run(0.25, 29);
+            gyro.turn(210);
+            gyro.turn(125);
         }
-        gyro.turn(45);
         forward.run(0.25, 11);
         glyph.soft();
         backward.run(0.25, 6);
