@@ -33,17 +33,18 @@ public class Jewel {
         int redValue = 0;
         robot.jewelServo.setPosition(robot.JEWEL_SERVO_MIDDLE);
         Thread.sleep(500);
-        moveArm(300);
+        moveArm(-435);
         Thread.sleep(250);
         blueValue = robot.JewelColorSensor.blue();
         redValue = robot.JewelColorSensor.red();
-        moveArm(340);
+        moveArm(-445);
         Thread.sleep(250);
         if (robot.JewelColorSensor.blue() > blueValue)
             blueValue = robot.JewelColorSensor.blue();
         if (robot.JewelColorSensor.red() > redValue)
             redValue = robot.JewelColorSensor.red();
-        Thread.sleep(500);
+        moveArm(-455);
+        Thread.sleep(250);
         if (robot.JewelColorSensor.blue() > blueValue)
             blueValue = robot.JewelColorSensor.blue();
         if (robot.JewelColorSensor.red() > redValue)

@@ -15,6 +15,9 @@ public class Forward {
     public void run(double speed, int distance) throws InterruptedException {
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Thread.sleep(250);
         int target = (int) (distance * robot.COUNTS_PER_INCH);
         robot.leftWheel.setTargetPosition(target);
