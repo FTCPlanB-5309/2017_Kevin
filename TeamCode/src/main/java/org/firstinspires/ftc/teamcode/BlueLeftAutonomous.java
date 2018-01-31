@@ -42,10 +42,11 @@ public class BlueLeftAutonomous extends LinearOpMode {
         jewel.JewelSwatter(robot.BLUE);
         column = conceptVuMarkId.findColumn(3000);
         glyph.close();
+        sleep(300);
         armHandler.armToPosition(400);
         gyroForward.sonic(14, 0);
 
-        colorSensorSlide.findColumn( (int)(16.5 * robot.COUNTS_PER_INCH),
+        colorSensorSlide.findColumn( (int)(15.5 * robot.COUNTS_PER_INCH),
                 (int) (7* robot.COUNTS_PER_INCH),
                 (int) (2*robot.COUNTS_PER_INCH),
                 column, robot.RIGHT);

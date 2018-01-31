@@ -13,23 +13,22 @@ public class Forward {
     }
 
     public void run(double speed, int distance) throws InterruptedException {
-        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.leftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robot.rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Thread.sleep(250);
         int target = (int) (distance * robot.COUNTS_PER_INCH);
-        robot.leftWheel.setTargetPosition(target);
         robot.rightWheel.setTargetPosition(target);
-
-        robot.leftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.leftWheel.setPower(speed);
+        robot.leftWheel.setTargetPosition(target);
         robot.rightWheel.setPower(speed);
+        robot.leftWheel.setPower(speed);
 
-        while (robot.leftWheel.isBusy() && robot.rightWheel.isBusy()) {
+
+        while (robot.rightWheel.isBusy()) {
             Thread.yield();
         }
 

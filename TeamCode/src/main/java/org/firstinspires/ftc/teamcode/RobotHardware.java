@@ -139,11 +139,11 @@ public class RobotHardware {
         armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         relicArm.setDirection(DcMotor.Direction.REVERSE);
-        leftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        centerWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        centerWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         jewelArmMotor.setDirection(DcMotor.Direction.REVERSE);
-        jewelArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        jewelArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         jewelServo = hwMap.servo.get("jewelServo");
         leftClaw = hwMap.servo.get("LC");

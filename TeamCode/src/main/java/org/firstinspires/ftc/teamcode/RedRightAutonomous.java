@@ -30,16 +30,17 @@ public class RedRightAutonomous extends LinearOpMode {
         jewel.JewelSwatter(robot.RED);
         RelicRecoveryVuMark column = conceptVuMarkId.findColumn(3000);
         glyph.close();
+        sleep(300);
         armHandler.armToPosition(800);
-        backward.run(0.35, 26);
+        backward.run(0.15, 26);
         gyro.turn(90);
         telemetry.update();
         robot.gyroSensor.resetZAxisIntegrator();
         robot.armMotor.setPower(-1);
         sleep(1000);
         robot.armMotor.setPower(0);
-        colorSensorBackward.findColumn((int)(8 * robot.COUNTS_PER_INCH), (int)(7 * robot.COUNTS_PER_INCH),
-                (int)(9* robot.COUNTS_PER_INCH), column);
+        colorSensorBackward.findColumn((int)(-8 * robot.COUNTS_PER_INCH), (int)(0 * robot.COUNTS_PER_INCH),
+                (int)(7* robot.COUNTS_PER_INCH), column);
         if (column == RelicRecoveryVuMark.LEFT)
             gyro.turn(50);
         else if (column == RelicRecoveryVuMark.CENTER)
@@ -48,7 +49,7 @@ public class RedRightAutonomous extends LinearOpMode {
             gyro.turn(45);
         forward.run(0.25, 3);
         glyph.soft();
-        backward.run(0.25, 3);
+        backward.run(0.25, 4);
         armHandler.armToPosition(0);
         glyph.open();
     }

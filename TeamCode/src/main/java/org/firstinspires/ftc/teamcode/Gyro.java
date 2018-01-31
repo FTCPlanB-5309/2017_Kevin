@@ -101,24 +101,30 @@ public class Gyro {
         if (qCode == quadrantCode.Q4toQ1) {
             distance = (target + (360 - currentHeading));
             if (distance > 45)
-                return 0.5;
-            else
+                return 0.35;
+            else if (distance > 5)
                 return 0.07;
+            else
+                return 0.04;
         }
 
         if (qCode == quadrantCode.Q1toQ4){
             distance = (currentHeading + (360 - target));
             if (distance > 45)
-                return 0.5;
-            else
+                return 0.35;
+            else if (distance > 5)
                 return 0.07;
+            else
+                return 0.04;
         }
 
         if (qCode == quadrantCode.QOther) {
             if (Math.abs(currentHeading - target) > 45)
-                return 0.5;
-            else
+                return 0.35;
+            else if (Math.abs(currentHeading - target) > 5)
                 return 0.07;
+            else
+                return 0.04;
         }
         return  0.07;
         }

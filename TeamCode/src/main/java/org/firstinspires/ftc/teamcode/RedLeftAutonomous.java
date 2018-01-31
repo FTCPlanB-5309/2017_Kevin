@@ -41,7 +41,9 @@ public class RedLeftAutonomous extends LinearOpMode {
         robot.gyroSensor.resetZAxisIntegrator();
 //        jewel.JewelSwatter(robot.RED);
         column = conceptVuMarkId.findColumn(4000);
+        CameraDevice.getInstance().setFlashTorchMode(false);
         glyph.close();
+        sleep(300);
         armHandler.armToPosition(600);
         backward.run(0.35, 26);
         telemetry.update();
@@ -49,7 +51,7 @@ public class RedLeftAutonomous extends LinearOpMode {
         robot.armMotor.setPower(-1);
         sleep(1000);
         robot.armMotor.setPower(0);
-        colorSensorBackward.findColumn((int)(7 * robot.COUNTS_PER_INCH), (int)(7 * robot.COUNTS_PER_INCH),
+        colorSensorBackward.findColumn((int)(-7 * robot.COUNTS_PER_INCH), (int)(7 * robot.COUNTS_PER_INCH),
                 (int)(3* robot.COUNTS_PER_INCH), column);
         if (column == RelicRecoveryVuMark.LEFT)
             gyro.turn(50);

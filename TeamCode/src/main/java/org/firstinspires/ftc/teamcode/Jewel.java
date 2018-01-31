@@ -29,6 +29,8 @@ public class Jewel {
     }
 
     public void JewelSwatter (int allianceColor) throws InterruptedException {
+        robot.jewelArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.jewelArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         int blueValue = 0;
         int redValue = 0;
         robot.jewelServo.setPosition(robot.JEWEL_SERVO_MIDDLE);
