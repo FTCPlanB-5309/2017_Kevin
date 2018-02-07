@@ -22,7 +22,7 @@ public class RedLeftAutonomous extends LinearOpMode {
     ArmHandler armHandler = new ArmHandler(robot, telemetry);
     ColorSensorSlide colorSensorSlide = new ColorSensorSlide(robot, telemetry);
     Glyph glyph = new Glyph(robot, telemetry);
-    GyroForward gyroForward = new GyroForward(robot, telemetry);
+    GyroBackward gyroBackward = new GyroBackward(robot, telemetry);
     Slide slide = new Slide(robot, telemetry);
     ConceptVuMarkId conceptVuMarkId = null;
 
@@ -34,30 +34,34 @@ public class RedLeftAutonomous extends LinearOpMode {
         RelicRecoveryVuMark column = null;
         waitForStart();
 
-        CameraDevice.getInstance().setFlashTorchMode(true);
-
         robot.gyroSensor.resetZAxisIntegrator();
         jewel.JewelSwatter(robot.RED);
+        CameraDevice.getInstance().setFlashTorchMode(true);
         column = conceptVuMarkId.findColumn(4000);
+        CameraDevice.getInstance().setFlashTorchMode(false);
         glyph.close();
+        sleep(250);
         armHandler.armToPosition(500);
 
         if (column == RelicRecoveryVuMark.RIGHT) {
-            backward.run(0.25, 40);
+            gyroBackward.distance(42);
             gyro.turn(45);
+            forward.run(0.25, 9);
         }
         else if (column == RelicRecoveryVuMark.CENTER) {
-            backward.run(0.25, 49);
+            gyroBackward.distance(49);
             gyro.turn(50);
+            forward.run(0.25, 9);
         }
         else if (column == RelicRecoveryVuMark.LEFT) {
-            backward.run(0.25, 29);
+            gyroBackward.distance(29);
             gyro.turn(210);
             gyro.turn(125);
+            forward.run(0.25, 7);
         }
-        forward.run(0.25, 11);
         glyph.soft();
-        backward.run(0.25, 6);
+        robot.gyroSensor.resetZAxisIntegrator();
+        gyroBackward.distance(6);
         armHandler.armToPosition(0);
     }
 }
