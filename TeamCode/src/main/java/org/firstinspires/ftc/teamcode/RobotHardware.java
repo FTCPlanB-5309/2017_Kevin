@@ -72,7 +72,7 @@ public class RobotHardware {
     final double JEWEL_SERVO_LEFT = 0;
     final double JEWEL_SERVO_RIGHT = 1;
     final double PLATFORM_SPEED = 0.15;
-    final double MOVEMENT_INCREMENT =0.03;
+    final double MOVEMENT_INCREMENT = 0.03;
     final int GLYPH_ARM_UP = 3100;
     final double RIGHT_CLAW_OPEN = 0.235;
     final double RIGHT_CLAW_CLOSED = 0.431;
