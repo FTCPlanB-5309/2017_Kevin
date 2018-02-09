@@ -21,6 +21,7 @@ public class RedRightAutonomous extends LinearOpMode {
     Glyph glyph = new Glyph(robot, telemetry);
     ConceptVuMarkId conceptVuMarkId = null;
     ColorSensorBackward colorSensorBackward = new ColorSensorBackward(robot, telemetry);
+    GyroBackward gyroBackward = new GyroBackward(robot,telemetry);
 
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
@@ -32,24 +33,28 @@ public class RedRightAutonomous extends LinearOpMode {
         glyph.close();
         sleep(300);
         armHandler.armToPosition(800);
-        backward.run(0.15, 26);
+        gyroBackward.distance(26);
         gyro.turn(90);
         telemetry.update();
         robot.gyroSensor.resetZAxisIntegrator();
-        robot.armMotor.setPower(-1);
-        sleep(1000);
-        robot.armMotor.setPower(0);
+        armHandler.armToPosition(400);
         colorSensorBackward.findColumn((int)(-8 * robot.COUNTS_PER_INCH), (int)(0 * robot.COUNTS_PER_INCH),
                 (int)(7* robot.COUNTS_PER_INCH), column);
-        if (column == RelicRecoveryVuMark.LEFT)
+        if (column == RelicRecoveryVuMark.LEFT) {
             gyro.turn(50);
-        else if (column == RelicRecoveryVuMark.CENTER)
+            forward.run(0.25, 5);
+        }
+        else if (column == RelicRecoveryVuMark.CENTER) {
             gyro.turn(45);
-        else
+            forward.run(0.25, 4);
+        }
+        else {
             gyro.turn(45);
-        forward.run(0.25, 3);
+            forward.run(0.25, 4);
+        }
         glyph.soft();
-        backward.run(0.25, 4);
+        robot.gyroSensor.resetZAxisIntegrator();
+        gyroBackward.distance(4);
         armHandler.armToPosition(0);
         glyph.open();
     }

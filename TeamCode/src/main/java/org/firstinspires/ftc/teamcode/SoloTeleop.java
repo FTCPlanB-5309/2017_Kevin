@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Tele-op", group = "Robot")
+@TeleOp(name = "Solo Tele-op", group = "Robot")
 @SuppressWarnings("unused")
 
 public class SoloTeleop extends OpMode {
@@ -41,8 +41,8 @@ public class SoloTeleop extends OpMode {
         robot.centerWheel.setPower(lx);
 
         float ly = getStickValue(gamepad1.left_stick_y);
-        float rx = getStickValue(gamepad1.right_stick_x);P
-        }
+        float rx = getStickValue(gamepad1.right_stick_x);
+
 
         //Arm controls.
         robot.armMotor.setPower(-gamepad1.right_stick_y / 2);

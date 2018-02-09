@@ -15,6 +15,7 @@ public class Teleop extends OpMode {
     Jewel jewel = new Jewel(robot, telemetry);
     Relic relic = new Relic(robot, telemetry);
     Glyph glyph = new Glyph(robot, telemetry);
+    boolean jewelReset = true;
 
     //Calculating for custom deadzone
     float getStickValue(float joy){
@@ -37,7 +38,12 @@ public class Teleop extends OpMode {
     @Override
     public void loop() {
         //Preventing the jewel arm from falling during.
-        jewel.moveArm(0);
+        if(jewelReset){
+            robot.jewelArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.jewelArmMotor.setTargetPosition(0);
+            robot.jewelArmMotor.setPower(0.25);
+            jewelReset = false;
+        }
 
         //Primary drive method.
         float lx = getStickValue(gamepad1.left_stick_x);

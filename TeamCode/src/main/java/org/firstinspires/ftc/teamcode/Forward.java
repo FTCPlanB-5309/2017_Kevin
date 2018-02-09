@@ -17,9 +17,6 @@ public class Forward {
         robot.leftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        robot.rightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.leftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         int target = (int) (distance * robot.COUNTS_PER_INCH);
         robot.rightWheel.setTargetPosition(target);
         robot.leftWheel.setTargetPosition(target);
@@ -29,6 +26,8 @@ public class Forward {
 
         while (robot.rightWheel.isBusy()) {
             Thread.yield();
+            robot.rightWheel.setPower(speed);
+            robot.leftWheel.setPower(speed);
         }
 
         robot.leftWheel.setPower(0);

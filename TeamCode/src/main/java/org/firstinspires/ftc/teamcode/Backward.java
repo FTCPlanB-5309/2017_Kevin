@@ -31,7 +31,8 @@ public class Backward {
             telemetry.addData("left:  ", robot.leftWheel.getCurrentPosition());
             telemetry.addData("right: ", robot.rightWheel.getCurrentPosition());
             telemetry.update();
-
+            robot.rightWheel.setPower(-speed);
+            robot.leftWheel.setPower(-speed);
             // Allow time for other processes to run.
             Thread.yield();
         }
