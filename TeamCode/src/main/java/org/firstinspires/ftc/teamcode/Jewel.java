@@ -24,6 +24,7 @@ public class Jewel {
         robot.jewelArmMotor.setTargetPosition(destination);
         robot.jewelArmMotor.setPower(0.25);
         while (robot.jewelArmMotor.isBusy()) {
+            robot.jewelArmMotor.setPower(0.25);
             Thread.yield();
         }
     }
@@ -35,11 +36,11 @@ public class Jewel {
         int redValue = 0;
         robot.jewelServo.setPosition(robot.JEWEL_SERVO_MIDDLE);
         Thread.sleep(500);
-        moveArm(-435);
+        moveArm(-430);
         Thread.sleep(250);
         blueValue = robot.JewelColorSensor.blue();
         redValue = robot.JewelColorSensor.red();
-        moveArm(-445);
+        moveArm(-440);
         Thread.sleep(250);
         if (robot.JewelColorSensor.blue() > blueValue)
             blueValue = robot.JewelColorSensor.blue();

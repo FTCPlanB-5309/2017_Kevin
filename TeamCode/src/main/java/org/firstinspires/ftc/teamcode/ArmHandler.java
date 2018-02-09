@@ -18,13 +18,14 @@ public class ArmHandler {
         this.telemetry = telemetry;
     }
 
-public void armToPosition (int pos){
+    public void armToPosition(int pos) {
         robot.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armMotor.setTargetPosition(pos);
         robot.armMotor.setPower(0.5);
         while (robot.armMotor.isBusy()) {
-                Thread.yield();
+            robot.armMotor.setPower(0.5);
+            Thread.yield();
         }
         robot.armMotor.setPower(0.0);
-        }
+    }
 }

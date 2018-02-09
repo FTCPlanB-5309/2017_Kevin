@@ -34,7 +34,7 @@ public class BlueRightAutonomous extends LinearOpMode {
     ConceptVuMarkId conceptVuMarkId = null;
     Slide slide = new Slide(robot,telemetry);
     ColorSensorForward colorSensorForward = new ColorSensorForward(robot,telemetry);
-
+    GyroBackward gyroBackward = new GyroBackward(robot,telemetry);
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         conceptVuMarkId = new ConceptVuMarkId(hardwareMap, telemetry);
@@ -70,7 +70,8 @@ public class BlueRightAutonomous extends LinearOpMode {
         }
 
         glyph.soft();
-        backward.run(0.25, 4);
+        robot.gyroSensor.resetZAxisIntegrator();
+        gyroBackward.distance(4);
         armHandler.armToPosition(0);
         glyph.open();
     }

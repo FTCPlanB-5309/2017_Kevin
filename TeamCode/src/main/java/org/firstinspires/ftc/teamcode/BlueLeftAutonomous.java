@@ -30,6 +30,7 @@ public class BlueLeftAutonomous extends LinearOpMode {
     Glyph glyph = new Glyph(robot, telemetry);
     GyroForward gyroForward = new GyroForward(robot, telemetry);
     ConceptVuMarkId conceptVuMarkId = null;
+    GyroBackward gyroBackward = new GyroBackward(robot,telemetry);
 
     public void runOpMode() throws InterruptedException {
         double distanceForward;
@@ -53,10 +54,9 @@ public class BlueLeftAutonomous extends LinearOpMode {
         gyro.turn(0);
         forward.run(0.25, 8);
         glyph.soft();
-        forward.run(0.25, -8);
-
+        robot.gyroSensor.resetZAxisIntegrator();
+        gyroBackward.distance(8);
         armHandler.armToPosition(0);
         glyph.open();
-
     }
 }
