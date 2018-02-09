@@ -14,7 +14,6 @@ public class SoloTeleop extends OpMode {
     Jewel jewel = new Jewel(robot, telemetry);
     Relic relic = new Relic(robot, telemetry);
     Glyph glyph = new Glyph(robot, telemetry);
-//WHATSSSSUUUUU
     //Calculating for custom deadzone
     float getStickValue(float joy){
         if(-joy < -robot.DEADZONE){
@@ -37,7 +36,6 @@ public class SoloTeleop extends OpMode {
     public void loop() {
         //Preventing the jewel arm from falling during.
         jewel.moveArm(0);
-//woof
         //Primary drive method.
         float lx = getStickValue(gamepad1.left_stick_x);
         robot.centerWheel.setPower(lx);
